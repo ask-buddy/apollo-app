@@ -1,4 +1,4 @@
-package com.example.apollo_app
+package com.learningbuddy.apollo
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,18 @@
+import 'package:apollo_app/Features/Common/View/splash_screen.dart';
+import 'package:apollo_app/Features/Authentication/Presentation/View/login_page.dart';
+import 'package:apollo_app/Features/Authentication/Presentation/View/registration_page.dart';
+import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+import '../Core/Utilities/Firebase/firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -31,12 +43,20 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: SplashScreen.id,
+      routes: {
+        SplashScreen.id: (context) => SplashScreen(),
+        WelcomePage.id: (context) => WelcomePage(),
+        LoginPage.id: (context) => const LoginPage(),
+        RegistrationPage.id: (context) => const RegistrationPage(),
+        MyHomePage.id: (context) => const MyHomePage(title: "Hello"),
+      },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  static String id = '/home';
   const MyHomePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -112,6 +132,21 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            // FIXME: Placeholder temporary for signing out firebase
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut().then(
+                  (value) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      SplashScreen.id,
+                      (route) => false,
+                    );
+                  },
+                );
+              },
+              child: const Text("Log out"),
+            )
           ],
         ),
       ),
