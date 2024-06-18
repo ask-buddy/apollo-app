@@ -100,10 +100,10 @@ class TeXExample {
   }
 }
 
-class Latextconvert extends StatelessWidget {
+class LatexExampleAdvance extends StatelessWidget {
   final TeXViewRenderingEngine renderingEngine;
 
-  const Latextconvert(
+  const LatexExampleAdvance(
       {super.key, this.renderingEngine = const TeXViewRenderingEngine.katex()});
 
   @override
