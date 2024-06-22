@@ -34,7 +34,10 @@ class GeminiUtilites {
     model: 'gemini-1.5-pro-latest',
     apiKey: apiKey,
   );
+}
 
+// Explainer
+extension GeminiExplainer on GeminiUtilites {
   Future<String> generateExplanation(File image) async {
     final content = [
       Content.multi([
@@ -47,6 +50,3 @@ class GeminiUtilites {
     return response.text ?? "No Response Provided";
   }
 }
-
-// Explainer
-extension on GeminiUtilites {}
