@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Core/Utilities/ImagePicker/image_picker_util.dart';
@@ -102,13 +103,38 @@ class _ExplanationPageState extends State<ExplanationPage> {
             child: SingleChildScrollView(
               child: explanationProvider.isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : Text(
-                      explanationProvider.explanation,
-                      softWrap: true,
-                    ),
+                  : MarkdownView(resultText: explanationProvider.explanation),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MarkdownView extends StatelessWidget {
+  const MarkdownView({
+    super.key,
+    required this.resultText,
+  });
+
+  final String resultText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: MarkdownBody(
+        data: resultText,
+        styleSheet: MarkdownStyleSheet(
+          h2: const TextStyle(
+              color: Colors.blue, fontSize: 20, fontWeight: FontWeight.w700),
+          p: const TextStyle(color: Colors.black, fontSize: 14),
+          strong: const TextStyle(
+              color: Color.fromARGB(255, 35, 5, 2),
+              fontWeight: FontWeight.bold),
+          listBullet: const TextStyle(color: Color.fromARGB(255, 240, 7, 7)),
+        ),
       ),
     );
   }
