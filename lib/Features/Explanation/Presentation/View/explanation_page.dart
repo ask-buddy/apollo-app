@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:apollo_app/Core/Constants/htmlstyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Core/Utilities/ImagePicker/image_picker_util.dart';
@@ -70,7 +72,6 @@ class _ExplanationPageState extends State<ExplanationPage> {
   @override
   Widget build(BuildContext context) {
     final explanationProvider = Provider.of<ExplanationProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Picker Example'),
@@ -102,13 +103,35 @@ class _ExplanationPageState extends State<ExplanationPage> {
             child: SingleChildScrollView(
               child: explanationProvider.isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : Text(
-                      explanationProvider.explanation,
-                      softWrap: true,
-                    ),
+                  : MarkdownView(resultText: explanationProvider.explanation),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MarkdownView extends StatelessWidget {
+  const MarkdownView({
+    super.key,
+    required this.resultText,
+  });
+
+  final String resultText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TeXView(
+        renderingEngine: const TeXViewRenderingEngine.katex(),
+        child: TeXViewDocument(
+          ABStyle.mainStyle + resultText,
+          style: const TeXViewStyle(
+            padding: TeXViewPadding.only(left: 8, right: 8, bottom: 34),
+          ),
+        ),
       ),
     );
   }
