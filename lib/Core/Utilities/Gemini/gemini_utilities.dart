@@ -7,33 +7,39 @@ class GeminiUtilites {
   static String apiKey = "AIzaSyAaId5V1ZcXcjbJIDU8LMoHS_upOh-WZnM";
 
   final String _explainerPrompt = """
-  input adalah soal matematika yang perlu diselesaikan. Tolong jelaskan langkah-langkah penyelesaiannya secara detail , mulai dari konsep dasar hingga penyelesaian soal dengan penjelasaan seperti kepada teman dan tentu menggunakan bahasa indonesia. Berikut adalah struktur atau section yang saya harapkan:
+Input adalah soal matematika yang perlu diselesaikan. Soal matematika yang di berikan bisa lebih dari satu soal,  berikan penjelasan langkah-langkah penyelesaiannya dengan penjelasaan menarik seperti menjelaskan kepada teman dan  menggunakan bahasa indonesia. Berikut adalah struktur penjelasan atau section yang saya harapkan:
 
-  1. **Memahami Konsep Dasar**:
-   - Jelaskan definisi dan istilah yang relevan dengan soal.
-   - Berikan contoh kontekstual yang relevan dengan konsep tersebut dengan kehidupan sehari hari dan pemanfaatannya. 
+Terdapat 2 bagian besar : 
+bagian pertama fokus memberikan jawaban sebagai berikut :
+Jika terdapat lebih dari soal berikan keterangan Nomor Soal, jika soal hanya satu tidak perlu diberikan keterangan nomor soal
+- **Mata pelajaran atau subject dari soal**
+- **Materi atau topics matematika pada soal yang akan di bahas**
+- **Langkah - langkah penyelesaian soal step by step dengan struktur **
+    - Diketahui, atau Identifikasi informasi yang diberikan dalam soal.
+    - Ditanyakan, Tentukan apa yang diminta dalam soal.
+    - Strategi, Diskusikan strategi yang bisa digunakan untuk menyelesaikan soal.
+    - Eksekusi Langkah - langkah penyelesaian soal 
+- **Estimasi kesulitan : **
+- **Estimasi waktu : **
+Estimasi Dihitung dari seberapa rumit soal tersebut dan ada berapa kombinasi materi di dalam soal tersebut
 
-  2. **Menjelaskan Teori dan Rumus**:
-   - Jelaskan teori di balik konsep yang diperlukan untuk menyelesaikan soal.
-   - Tunjukkan bagaimana rumus diturunkan jika memungkinkan.
-   - Gunakan diagram atau visualisasi jika diperlukan.
+Bagian ke dua adalah penjelasan detail yang berisi
+- **Konsep dasar yang dibutuhkan**:
+- **Memahami Konsep Dasar**:
+    - Jelaskan definisi dan istilah yang relevan dengan soal.
+- **Contoh penggunaan dalam kehidupan **:
+    - Berikan contoh kontekstual yang relevan konsep tersebut dengan kehidupan sehari hari dan pemanfaatannya. 
 
-  3. **Langkah-langkah Penyelesaian Soal**:
-   - Identifikasi informasi yang diberikan dalam soal.
-   - Tentukan apa yang diminta dalam soal.
-   - Diskusikan strategi yang bisa digunakan untuk menyelesaikan soal.
+Dalam menjawab Selalu gunakan struktur yang sama untuk setiap soal.
 
-  4. **Penyelesaian Soal Langkah demi Langkah**:
-   - Berikan solusi langkah demi langkah dengan penjelasan yang detail.
-   - Tunjukkan cara menuliskan setiap langkah dengan jelas.
+Saya mengharapkan output markdown di rubah menjadi format tag html yang sesuai seperti header ## diganti dengan <h3>, sub heading dengan <h4>, cetak tebal **text** menjadi <b>textb</b>, bullet, penomoran dan tag lainnya juga dibungkus dengan tag format html yang sesuai.
+Pada bagian mata pelajaran gunakan tag span bukan <h3> dan berikan attribut kelas mata-pelajaran di tag htmlnya, dan untuk materi atau topics gunakan tag span bukan <h3> dan berikan attribut kelas materi-topics.
 
-  Selalu gunakan struktur yang sama untuk setiap soal, 
+Pada bagian Estimasi kesulitan gunakan tag html span dan berikan attribut kelas tingkat-kesulitan-mudah untuk mudah, tingkat-kesulitan-sedang untuk sedang dan tingkat-kesulitan-sulit untuk sulit.
 
-  saya mengharapkan output markdown di rubah menjadi format tag html yang sesuai seperti header ## diganti dengan <h3>, cetak tebal **text** menjadi <b>textb</b>, bullet, penomoran dan yang lainnya juga dibungkus dengan tag format html yang sesuai, 
+kemudian khusus untuk semua notasi matematika selain di bungkus tag html juga di tulis dalam format latex  yang dibungkus dengan backslash kurung tutup angka format latex backslash kurung tutupdan jangan menggunakan tag latex seperti \\begin{aligned} atau tag latex yang lainnya.
 
-  kemudian khusus untuk notasi matematika selain di bungkus tag html juga di tulis dalam format latex  yang dibungkus dengan \\( angka format latex \\) dan tidak perlu menggunakan tag latex seperti \begin{aligned} atau yang lainnya.
-
-  contoh hasil format latex yang saya harapkan contohnya seperti ini <li>\\( \frac{3m - 5}{m - 3} = 3 \\)</li>
+Contoh hasil format latex yang saya harapkan contohnya seperti ini <li>backslash kurung buka \\frac{3m - 5}{m - 3} = 3 backslash kurung tutup</li>
 
   """;
 

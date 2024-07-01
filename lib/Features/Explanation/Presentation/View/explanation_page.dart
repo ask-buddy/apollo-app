@@ -129,7 +129,7 @@ class MarkdownView extends StatelessWidget {
         child: TeXViewDocument(
           ABStyle.mainStyle + resultText,
           style: const TeXViewStyle(
-            padding: TeXViewPadding.only(left: 8, right: 8, bottom: 24),
+            padding: TeXViewPadding.only(left: 8, right: 8, bottom: 34),
           ),
         ),
       ),
