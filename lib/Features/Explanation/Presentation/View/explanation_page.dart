@@ -1,7 +1,8 @@
 import 'dart:io';
+import 'package:apollo_app/Core/Constants/htmlstyle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Core/Utilities/ImagePicker/image_picker_util.dart';
@@ -71,7 +72,6 @@ class _ExplanationPageState extends State<ExplanationPage> {
   @override
   Widget build(BuildContext context) {
     final explanationProvider = Provider.of<ExplanationProvider>(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Image Picker Example'),
@@ -124,16 +124,13 @@ class MarkdownView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: MarkdownBody(
-        data: resultText,
-        styleSheet: MarkdownStyleSheet(
-          h2: const TextStyle(
-              color: Colors.blue, fontSize: 20, fontWeight: FontWeight.w700),
-          p: const TextStyle(color: Colors.black, fontSize: 14),
-          strong: const TextStyle(
-              color: Color.fromARGB(255, 35, 5, 2),
-              fontWeight: FontWeight.bold),
-          listBullet: const TextStyle(color: Color.fromARGB(255, 240, 7, 7)),
+      child: TeXView(
+        renderingEngine: const TeXViewRenderingEngine.katex(),
+        child: TeXViewDocument(
+          ABStyle.mainStyle + resultText,
+          style: const TeXViewStyle(
+            padding: TeXViewPadding.only(left: 8, right: 8, bottom: 24),
+          ),
         ),
       ),
     );
