@@ -51,6 +51,9 @@ Contoh hasil format latex yang saya harapkan contohnya seperti ini <li>backslash
 
   """;
 
+  final String _generateQuestionPrompt =
+      "You are a Mathematician AI and excellent in math. Please create similar problems based on the provided SAT or ACT question using the original language and format from the assignment instructions. Respond by generating a unique and different question that matches the given language and format exactly, ensuring it is clear and properly formatted without any additional text or explanations. Each problem should use numbers between 1 and 100. Paraphrase and vary the context of the problems while maintaining the same question style and mathematical complexity. For example, if the original question involves algebraic expressions with square roots, change the context to a real-world scenario such as comparing lengths in different units, calculating areas, or determining volumes, but ensure the mathematical operations remain similar. ";
+
   final _modelGemini15pro = GenerativeModel(
     model: 'gemini-1.5-pro-latest',
     apiKey: apiKey,
@@ -63,6 +66,21 @@ extension GeminiExplainer on GeminiUtilites {
     final content = [
       Content.multi([
         TextPart(_explainerPrompt),
+        DataPart("image/jpeg", image.readAsBytesSync())
+      ])
+    ];
+
+    final response = await _modelGemini15pro.generateContent(content);
+    return response.text ?? "No Response Provided";
+  }
+}
+
+// GenerateQuestion
+extension GeminiGenerateQuestion on GeminiUtilites {
+  Future<String> generateQuestion(File image) async {
+    final content = [
+      Content.multi([
+        TextPart(_generateQuestionPrompt),
         DataPart("image/jpeg", image.readAsBytesSync())
       ])
     ];
