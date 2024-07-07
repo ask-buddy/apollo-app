@@ -1,4 +1,4 @@
-import 'package:apollo_app/Features/Authentication/Presentation/View/login_page.dart';
+import 'package:apollo_app/Features/Authentication/Presentation/View/login/login_page.dart';
 import 'package:apollo_app/Features/Authentication/Presentation/View/registration_page.dart';
 import 'package:flutter/material.dart';
 
