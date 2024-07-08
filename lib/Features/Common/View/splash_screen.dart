@@ -2,6 +2,7 @@ import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_pag
 import 'package:apollo_app/Features/Explanation/Presentation/Provider/explanation_provider.dart';
 import 'package:apollo_app/Features/Explanation/Presentation/View/explanation_page.dart';
 import 'package:apollo_app/Features/QuestionGenerator/Presentation/Provider/generate_question_provider.dart';
+import 'package:apollo_app/Features/Chat/Presentation/View/chat_page.dart';
 import 'package:apollo_app/Features/QuestionGenerator/Presentation/View/generate_question_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class SplashScreen extends StatelessWidget {
           // Need To refactor to correct page when ready
           return ChangeNotifierProvider(
             create: (context) => GenerateQuestionProvider(),
-            child: const GenerateQuestionPage(),
+            child: const ChatPage(),
           ); // User is logged in
         } else {
           return const WelcomePage(); // User is NOT logged in
