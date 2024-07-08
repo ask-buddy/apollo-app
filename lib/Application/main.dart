@@ -1,10 +1,10 @@
 import 'package:apollo_app/Core/Themes/themes.dart';
+import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
 import 'package:apollo_app/Features/Common/View/splash_screen.dart';
 import 'package:apollo_app/Features/Authentication/Presentation/View/login/login_page.dart';
 import 'package:apollo_app/Features/Authentication/Presentation/View/registration_page.dart';
 import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_page.dart';
 import 'package:apollo_app/Features/Explanation/Presentation/View/explanation_page.dart';
-import 'package:apollo_app/Features/LatexConvert/latext_convert.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         WelcomePage.id: (context) => WelcomePage(),
         LoginPage.id: (context) => const LoginPage(),
         RegistrationPage.id: (context) => const RegistrationPage(),
-        MyHomePage.id: (context) => const ExplanationPage(),
+        MyHomePage.id: (context) => const CapturePage(),
       },
     );
   }

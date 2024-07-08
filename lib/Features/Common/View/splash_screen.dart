@@ -1,4 +1,6 @@
 import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_page.dart';
+import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
+import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
 import 'package:apollo_app/Features/QuestionGenerator/Presentation/Provider/generate_question_provider.dart';
 import 'package:apollo_app/Features/QuestionGenerator/Presentation/View/generate_question_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,8 +23,8 @@ class SplashScreen extends StatelessWidget {
         if (!snapshot.hasData) {
           // Need To refactor to correct page when ready
           return ChangeNotifierProvider(
-            create: (context) => GenerateQuestionProvider(),
-            child: const GenerateQuestionPage(),
+            create: (context) => CaptureProvider(),
+            child: const CapturePage(),
           ); // User is logged in
         } else {
           return const WelcomePage(); // User is NOT logged in
