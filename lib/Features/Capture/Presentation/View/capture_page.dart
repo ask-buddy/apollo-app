@@ -1,3 +1,4 @@
+import 'package:apollo_app/Features/Capture/Presentation/View/preview_page.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/widget/camera_button.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/widget/flash_button.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/widget/galery_button.dart';
@@ -116,7 +117,9 @@ class _CapturePageState extends State<CapturePage> {
                       children: [
                         FlashButton(isFlashOn: true, onPressed: () {}),
                         CameraButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            onCapture(context);
+                          },
                         ),
                         GaleryButton(onPressed: () {})
                       ],
@@ -151,5 +154,23 @@ class _CapturePageState extends State<CapturePage> {
         ),
       ),
     );
+  }
+
+  void onCapture(BuildContext context) async {
+    try {
+      // Capture the image
+      final XFile picture = await cameraController!.takePicture();
+      if (!Navigator.of(context).mounted) return;
+
+      // Navigate to PreviewPage
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PreviewPage(imgPath: picture),
+        ),
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 }
