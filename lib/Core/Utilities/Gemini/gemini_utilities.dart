@@ -19,9 +19,17 @@ Jika terdapat lebih dari soal berikan keterangan Nomor Soal, jika soal hanya sat
     - Ditanyakan, Tentukan apa yang diminta dalam soal.
     - Strategi, Diskusikan strategi yang bisa digunakan untuk menyelesaikan soal.
     - Eksekusi Langkah - langkah penyelesaian soal 
+       gunakan list bullet pada Langkah penyelesaian soal, pastikan ketika terdapat = atau : pada satu section langkah-langkah, gunakan baris baru.
+
 - **Estimasi kesulitan : **
+Gunakan kerangka kerja Bloom Taksonomi untuk menentukan tingkat kesulitan soal, dan konversikan menjadi angka dengan range dari 1 sampai 5:
+gunakan range angka 1 atau 2 jika Mudah (kelas: tingkat-kesulitan-mudah)
+gunakan angka 3 jika Sedang (kelas: tingkat-kesulitan-sedang)
+gunakan range 4 atau 5 jika Sulit (kelas: tingkat-kesulitan-sulit)
+Gunakan tag <span> dengan atribut kelas yang sesuai.
+
 - **Estimasi waktu : **
-Estimasi Dihitung dari seberapa rumit soal tersebut dan ada berapa kombinasi materi di dalam soal tersebut
+Berikan estimasi waktu yang dibutuhkan untuk menyelesaikan soal dengan menghitungnya memperhatikan kerangka kerja bloom taksonomi.
 
 Bagian ke dua adalah penjelasan detail yang berisi
 - **Konsep dasar yang dibutuhkan**:
@@ -43,7 +51,8 @@ Contoh hasil format latex yang saya harapkan contohnya seperti ini <li>backslash
 
   """;
 
-  final String _generateQuestionPrompt = "You are a Mathematician AI and excellent in math. Please create similar problems based on the provided SAT or ACT question using the original language and format from the assignment instructions. Respond by generating a unique and different question that matches the given language and format exactly, ensuring it is clear and properly formatted without any additional text or explanations. Each problem should use numbers between 1 and 100. Paraphrase and vary the context of the problems while maintaining the same question style and mathematical complexity. For example, if the original question involves algebraic expressions with square roots, change the context to a real-world scenario such as comparing lengths in different units, calculating areas, or determining volumes, but ensure the mathematical operations remain similar. ";
+  final String _generateQuestionPrompt =
+      "You are a Mathematician AI and excellent in math. Please create similar problems based on the provided SAT or ACT question using the original language and format from the assignment instructions. Respond by generating a unique and different question that matches the given language and format exactly, ensuring it is clear and properly formatted without any additional text or explanations. Each problem should use numbers between 1 and 100. Paraphrase and vary the context of the problems while maintaining the same question style and mathematical complexity. For example, if the original question involves algebraic expressions with square roots, change the context to a real-world scenario such as comparing lengths in different units, calculating areas, or determining volumes, but ensure the mathematical operations remain similar. ";
 
   final _modelGemini15pro = GenerativeModel(
     model: 'gemini-1.5-pro-latest',
