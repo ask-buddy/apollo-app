@@ -1,6 +1,6 @@
 import 'package:apollo_app/Core/Constants/colors.dart';
-import 'package:apollo_app/Core/Constants/text_string.dart';
-import 'package:apollo_app/Core/Widget/text_divider.dart';
+import 'package:apollo_app/Core/Constants/app_label.dart';
+import 'package:apollo_app/Features/Authentication/Components/text_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

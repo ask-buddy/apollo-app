@@ -1,8 +1,6 @@
-import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_page.dart';
+import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
-import 'package:apollo_app/Features/QuestionGenerator/Presentation/Provider/generate_question_provider.dart';
-import 'package:apollo_app/Features/QuestionGenerator/Presentation/View/generate_question_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 /// This class contains all the App Text in String formats.
 class ABTexts {
   // -- Authentication Headings
-  static const String loginTitle = "Wellcome back,";
+  static const String loginTitle = "Welcome back,";
   static const String loginSubTitle = "Please sign in to save your learning";
 
   // -- Authentication Forms
