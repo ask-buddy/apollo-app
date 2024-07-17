@@ -1,9 +1,9 @@
+import 'package:apollo_app/Core/Themes/themes.dart';
+import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
 import 'package:apollo_app/Features/Common/View/splash_screen.dart';
-import 'package:apollo_app/Features/Authentication/Presentation/View/login_page.dart';
-import 'package:apollo_app/Features/Authentication/Presentation/View/registration_page.dart';
-import 'package:apollo_app/Features/Authentication/Presentation/View/welcome_page.dart';
-import 'package:apollo_app/Features/Explanation/Presentation/View/explanation_page.dart';
-import 'package:apollo_app/Features/LatexConvert/latext_convert.dart';
+import 'package:apollo_app/Features/Authentication/Login/Presentation/View/login_page.dart';
+import 'package:apollo_app/Features/Authentication/SignUp/registration_page.dart';
+import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,32 +26,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      themeMode: ThemeMode.system,
+      theme: ABAppTheme.lightTheme,
+      darkTheme: ABAppTheme.darkTheme,
       initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         WelcomePage.id: (context) => WelcomePage(),
         LoginPage.id: (context) => const LoginPage(),
         RegistrationPage.id: (context) => const RegistrationPage(),
-        MyHomePage.id: (context) => const ExplanationPage(),
+        MyHomePage.id: (context) => const CapturePage(),
       },
     );
   }
