@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import '../../../QuestionGenerator/Presentation/Provider/generate_question_provider.dart';
 
@@ -21,13 +22,12 @@ class _ChatPageState extends State<ChatPage> {
 
   int _selectedSegment = 1;
 
-  final List<String> suggestions = [
-    '5+5',
-    '10/5*2',
-    '10/4*5',
-    '7+1-5',
-    '50/2'
-  ];
+  @override
+  void dispose() {
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   void _sendMessage() {
     if (_controller.text.isEmpty) return;
@@ -35,19 +35,12 @@ class _ChatPageState extends State<ChatPage> {
     bool isAtBottom = _scrollController.offset >= _scrollController.position.maxScrollExtent;
 
     setState(() {
-      // Add user message
       messages.add({'sender': 'user', 'text': _controller.text});
-
-      // Add AI response
-      messages.add({
-        'sender': 'ai',
-        'text': '${_controller.text}'
-      });
+      messages.add({'sender': 'ai', 'text': '${_controller.text}'});
     });
 
     _controller.clear();
 
-    // Scroll to the bottom only if the chat was already at the bottom
     if (isAtBottom) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
@@ -67,7 +60,6 @@ class _ChatPageState extends State<ChatPage> {
       messages.add({'sender': 'ai', 'text': 'Hello! How can I assist you today?'});
     });
 
-    // Scroll to the bottom only if the chat was already at the bottom
     if (isAtBottom) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.animateTo(
@@ -79,6 +71,60 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Copied to clipboard')),
+    );
+  }
+
+  void _addToNotebook(String text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Added to notebook')),
+    );
+  }
+
+  void _handleButtonPress(String buttonText) {
+    switch (buttonText) {
+      case 'Generate Similar Question':
+        _generateSimilarQuestion();
+        break;
+      case 'Solve New Question':
+        _solveNewQuestion();
+        break;
+      case 'Check My Answer':
+        _checkMyAnswer();
+        break;
+      case 'ACT Exam Information':
+        _actExamInformation();
+        break;
+    }
+  }
+
+  void _generateSimilarQuestion() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Generate similar question')),
+    );
+  }
+
+  void _solveNewQuestion() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Solve new question')),
+    );
+  }
+
+  void _checkMyAnswer() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Check my answer')),
+    );
+  }
+
+  void _actExamInformation() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('ACT exam information')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final generateQuestionProvider = Provider.of<GenerateQuestionProvider>(context);
@@ -86,8 +132,10 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.refresh),
-          onPressed: _refreshChat,
+          icon: Icon(Icons.settings),
+          onPressed: () {
+
+          },
         ),
         title: Container(
           height: 40,
@@ -137,7 +185,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.book),
             onPressed: () {
               // Handle settings icon press
             },
@@ -153,48 +201,75 @@ class _ChatPageState extends State<ChatPage> {
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
-                return Align(
-                  alignment: message['sender'] == 'ai'
-                      ? Alignment.centerLeft
-                      : Alignment.centerRight,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: message['sender'] == 'ai'
-                          ? Colors.grey[300]
-                          : Colors.blue[300],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(message['text']!),
-                  ),
-                );
-              },
-            ),
-          ),
-          Container(
-            height: 50,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: suggestions.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _controller.text = suggestions[index];
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.grey[300],
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                return Column(
+                  crossAxisAlignment: message['sender'] == 'ai'
+                      ? CrossAxisAlignment.start
+                      : CrossAxisAlignment.end,
+                  children: [
+                    Align(
+                      alignment: message['sender'] == 'ai'
+                          ? Alignment.centerLeft
+                          : Alignment.centerRight,
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: message['sender'] == 'ai'
+                              ? Colors.grey[300]
+                              : Colors.blue[300],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(message['text']!),
                       ),
                     ),
-                    child: Text(suggestions[index]),
-                  ),
+                    if (message['sender'] == 'ai')
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                _buildElevatedButton('Copy', () => _copyToClipboard(message['text']!)),
+                                SizedBox(width: 10),
+                                _buildElevatedButton('Save to Notebook', () => _addToNotebook(message['text']!)),
+                              ],
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.only(top: 5), // Adjust top padding here
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        _buildElevatedButton('Generate Similar Question', _generateSimilarQuestion),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        _buildElevatedButton('Solve New Question', _solveNewQuestion),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        _buildElevatedButton('Check My Answer', _checkMyAnswer),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        _buildElevatedButton('ACT Exam Information', _actExamInformation),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )                
+                          ],
+                        ),
+                      ),
+                  ],
                 );
               },
             ),
@@ -204,29 +279,45 @@ class _ChatPageState extends State<ChatPage> {
             child: Row(
               children: [
                 Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    decoration: InputDecoration(
-                      hintText: 'What do you want to ask?',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Rounded corners
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Rounded corners when focused
-                        borderSide: BorderSide(color: Colors.blue),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0), // Rounded corners when enabled
-                        borderSide: BorderSide(color: Colors.grey),
+                  child: Container(
+                    height: 50, // Set the height of the container to match TextField
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        hintText: 'What do you want to ask?',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), // Rounded corners
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), // Rounded corners when focused
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8), // Rounded corners when enabled
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                       ),
                     ),
                   ),
                 ),
-                Transform.rotate(
-                  angle: -45 * 3.14159 / 180, // Rotate the icon by -45 degrees
-                  child: IconButton(
-                    icon: Icon(Icons.send),
-                    onPressed: _sendMessage,
+                SizedBox(width: 10), // Add space between TextField and send icon
+                GestureDetector(
+                  onTap: _sendMessage, // Function to call when the area is tapped
+                  child: Container(
+                    height: 50,
+                    width: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300], // Background color
+                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                    ),
+                    padding: EdgeInsets.all(8), // Padding around the icon
+                    child: Transform.rotate(
+                      angle: -45 * 3.25 / 190, // Rotate the icon by -45 degrees
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.black, // Icon color
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -236,4 +327,79 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
+
+  Widget _buildElevatedButton(String label, Function() onPressed) {
+  if (label == 'Copy') {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey[300],
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 0,
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.content_copy, size: 18), // Copy icon
+          SizedBox(width: 8), // Adjust spacing between icon and text
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  } else if (label == 'Save to Notebook') {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey[300],
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 0,
+      ),
+      child: Row(
+        children: [
+          Icon(Icons.bookmark, size: 18), // Bookmark icon
+          SizedBox(width: 8), // Adjust spacing between icon and text
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  } else {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.grey[300],
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 0,
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
 }
