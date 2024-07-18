@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FlashButton extends StatelessWidget {
   const FlashButton(
@@ -10,10 +11,10 @@ class FlashButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        isFlashOn ? Icons.flash_on : Icons.flash_off,
+      icon: const FaIcon(
+        FontAwesomeIcons.bolt,
         color: Colors.white,
-        size: 36,
+        size: 24,
       ),
       onPressed: onPressed,
     );
