@@ -4,9 +4,9 @@ import 'package:apollo_app/Features/Authentication/Components/text_divider.dart'
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../Application/main.dart';
 import '../../../../../Core/Constants/image_strings.dart';
 import '../../../../../Core/Constants/sizes.dart';
+import '../../../../Common/Home/View/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = '/login';
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
         (user) {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            MyHomePage.id,
+            HomePage.id,
             (route) => false,
           );
         },
