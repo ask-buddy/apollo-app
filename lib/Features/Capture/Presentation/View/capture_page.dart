@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../Core/Widget/button/camera_button.dart';
-import '../../../../Core/Widget/button/flash_button.dart';
-import '../../../../Core/Widget/button/galery_button.dart';
-import '../../../../Core/Widget/button/notebook_button.dart';
 import '../../../../Core/Widget/button/setting_button.dart';
+import '../../Components/camera_button.dart';
+import '../../Components/flash_button.dart';
+import '../../Components/galery_button.dart';
+import '../../Components/notebook_button.dart';
 import '../Provider/capture_provider.dart';
 import 'camera_preview.dart';
 
