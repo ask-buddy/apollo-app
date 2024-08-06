@@ -11,10 +11,10 @@ class CaptureProvider with ChangeNotifier {
   int selectedCameraIndex = 0;
 
   CaptureProvider() {
-    _init();
+    init();
   }
 
-  Future<void> _init() async {
+  Future<void> init() async {
     cameras = await availableCameras();
     if (cameras.isNotEmpty) {
       selectedCameraIndex = 0;
@@ -41,6 +41,12 @@ class CaptureProvider with ChangeNotifier {
       print("camera error $e");
       return;
     }
+    notifyListeners();
+  }
+
+  void disposeCamera() {
+    cameraController?.dispose();
+    cameraController = null;
     notifyListeners();
   }
 

@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 
 class ChatPage extends StatefulWidget {
@@ -30,7 +28,8 @@ class _ChatPageState extends State<ChatPage> {
   void _sendMessage() {
     if (_controller.text.isEmpty) return;
 
-    bool isAtBottom = _scrollController.offset >= _scrollController.position.maxScrollExtent;
+    bool isAtBottom =
+        _scrollController.offset >= _scrollController.position.maxScrollExtent;
 
     setState(() {
       messages.add({'sender': 'user', 'text': _controller.text});
@@ -51,11 +50,13 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _refreshChat() {
-    bool isAtBottom = _scrollController.offset >= _scrollController.position.maxScrollExtent;
+    bool isAtBottom =
+        _scrollController.offset >= _scrollController.position.maxScrollExtent;
 
     setState(() {
       messages.clear();
-      messages.add({'sender': 'ai', 'text': 'Hello! How can I assist you today?'});
+      messages
+          .add({'sender': 'ai', 'text': 'Hello! How can I assist you today?'});
     });
 
     if (isAtBottom) {
@@ -119,72 +120,13 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final generateQuestionProvider = Provider.of<GenerateQuestionProvider>(context);
+    return _buildChatPage();
+  }
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {
-
-          },
-        ),
-        title: Container(
-          height: 40,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedSegment = 0;
-                  });
-                },
-                child: Container(
-                  width: 57,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: _selectedSegment == 0 ? Colors.blue : Colors.grey[300],
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(9),
-                      bottomLeft: Radius.circular(9),
-                    ),
-                  ),
-                  child: Icon(Icons.camera_alt, color: _selectedSegment == 0 ? Colors.white : Colors.black),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedSegment = 1;
-                  });
-                },
-                child: Container(
-                  width: 57,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: _selectedSegment == 1 ? Colors.blue : Colors.grey[300],
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(9),
-                      bottomRight: Radius.circular(9),
-                    ),
-                  ),
-                  child: Icon(Icons.chat, color: _selectedSegment == 1 ? Colors.white : Colors.black),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.book),
-            onPressed: () {
-              // Handle settings icon press
-            },
-          ),
-        ],
-      ),
-      body: Column(
+  Widget _buildChatPage() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 56),
+      child: Column(
         children: [
           Expanded(
             child: ListView.builder(
@@ -203,7 +145,8 @@ class _ChatPageState extends State<ChatPage> {
                           ? Alignment.centerLeft
                           : Alignment.centerRight,
                       child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        margin:
+                            EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: message['sender'] == 'ai'
@@ -222,42 +165,50 @@ class _ChatPageState extends State<ChatPage> {
                           children: [
                             Row(
                               children: [
-                                _buildElevatedButton('Copy', () => _copyToClipboard(message['text']!)),
+                                _buildElevatedButton('Copy',
+                                    () => _copyToClipboard(message['text']!)),
                                 SizedBox(width: 10),
-                                _buildElevatedButton('Save to Notebook', () => _addToNotebook(message['text']!)),
+                                _buildElevatedButton('Save to Notebook',
+                                    () => _addToNotebook(message['text']!)),
                               ],
                             ),
-
                             Padding(
-                              padding: EdgeInsets.only(top: 5), // Adjust top padding here
+                              padding: EdgeInsets.only(
+                                  top: 5), // Adjust top padding here
                               child: Container(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
-                                        _buildElevatedButton('Generate Similar Question', _generateSimilarQuestion),
+                                        _buildElevatedButton(
+                                            'Generate Similar Question',
+                                            _generateSimilarQuestion),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        _buildElevatedButton('Solve New Question', _refreshChat),
+                                        _buildElevatedButton(
+                                            'Solve New Question', _refreshChat),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        _buildElevatedButton('Check My Answer', _checkMyAnswer),
+                                        _buildElevatedButton(
+                                            'Check My Answer', _checkMyAnswer),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                        _buildElevatedButton('ACT Exam Information', _actExamInformation),
+                                        _buildElevatedButton(
+                                            'ACT Exam Information',
+                                            _actExamInformation),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ) 
+                            )
                           ],
                         ),
                       ),
@@ -267,34 +218,41 @@ class _ChatPageState extends State<ChatPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, bottom: 40, top: 10),
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 40, top: 10),
             child: Row(
               children: [
                 Expanded(
                   child: Container(
-                    height: 50, // Set the height of the container to match TextField
+                    height:
+                        50, // Set the height of the container to match TextField
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
                         hintText: 'What do you want to ask?',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8), // Rounded corners
+                          borderRadius:
+                              BorderRadius.circular(8), // Rounded corners
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8), // Rounded corners when focused
+                          borderRadius: BorderRadius.circular(
+                              8), // Rounded corners when focused
                           borderSide: BorderSide(color: Colors.blue),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8), // Rounded corners when enabled
+                          borderRadius: BorderRadius.circular(
+                              8), // Rounded corners when enabled
                           borderSide: BorderSide(color: Colors.grey),
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: 10), // Add space between TextField and send icon
+                SizedBox(
+                    width: 10), // Add space between TextField and send icon
                 GestureDetector(
-                  onTap: _sendMessage, // Function to call when the area is tapped
+                  onTap:
+                      _sendMessage, // Function to call when the area is tapped
                   child: Container(
                     height: 50,
                     width: 48,
@@ -321,80 +279,83 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildElevatedButton(String label, Function() onPressed) {
-  if (label == 'Copy') {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey[300],
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        side: BorderSide.none, // Remove side border
-        elevation: 0,
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.content_copy, size: 18, color: Colors.black,), // Copy icon
-          SizedBox(width: 8), // Adjust spacing between icon and text
-          Text(
-            label,
-            style: TextStyle(
-              color: Colors.black,
-            ),
+    if (label == 'Copy') {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[300],
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
-        ],
-      ),
-    );
-  } else if (label == 'Save to Notebook') {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey[300],
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          side: BorderSide.none, // Remove side border
+          elevation: 0,
         ),
-        side: BorderSide.none, // Remove side border
-        elevation: 0,
-      ),
-      child: Row(
-        children: [
-          Icon(Icons.bookmark, size: 18, color: Colors.black,), // Bookmark icon
-          SizedBox(width: 8), // Adjust spacing between icon and text
-          Text(
-            label,
-            style: TextStyle(
+        child: Row(
+          children: [
+            Icon(
+              Icons.content_copy,
+              size: 18,
               color: Colors.black,
+            ), // Copy icon
+            SizedBox(width: 8), // Adjust spacing between icon and text
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black,
+              ),
             ),
+          ],
+        ),
+      );
+    } else if (label == 'Save to Notebook') {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[300],
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
           ),
-        ],
-      ),
-    );
-  } else {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.grey[300],
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          side: BorderSide.none, // Remove side border
+          elevation: 0,
         ),
-        side: BorderSide.none, // Remove side border
-        elevation: 0,
-      ),
-      child: Text(
-        label,
-        style: TextStyle(
-          color: Colors.black,
+        child: Row(
+          children: [
+            Icon(
+              Icons.bookmark,
+              size: 18,
+              color: Colors.black,
+            ), // Bookmark icon
+            SizedBox(width: 8), // Adjust spacing between icon and text
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    } else {
+      return ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey[300],
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          side: BorderSide.none, // Remove side border
+          elevation: 0,
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      );
+    }
   }
-}
-
-
-
-
-
 }

@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingButton extends StatelessWidget {
-  const SettingButton({super.key, required this.onPressed});
+  const SettingButton(
+      {super.key, required this.onPressed, required this.iconColor});
 
+  final Color iconColor;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const FaIcon(
+      icon: FaIcon(
         FontAwesomeIcons.gear,
-        color: Colors.white,
+        color: iconColor,
         size: 24,
       ),
       onPressed: onPressed,

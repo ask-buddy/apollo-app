@@ -1,6 +1,7 @@
-import 'package:apollo_app/Application/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../Common/Home/View/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   static String id = '/register';
@@ -79,7 +80,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         (user) {
           Navigator.pushNamedAndRemoveUntil(
             context,
-            MyHomePage.id,
+            HomePage.id,
             (route) => false,
           );
         },
