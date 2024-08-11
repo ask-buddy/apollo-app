@@ -1,6 +1,7 @@
 import 'package:apollo_app/Core/Themes/themes.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
+import 'package:apollo_app/Features/Common/Setting/View/setting_page.dart';
 import 'package:apollo_app/Features/Common/SplashScreen/View/splash_screen.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/login_page.dart';
 import 'package:apollo_app/Features/Authentication/SignUp/registration_page.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         LoginPage.id: (context) => const LoginPage(),
         RegistrationPage.id: (context) => const RegistrationPage(),
         HomePage.id: (context) => const HomePage(),
+        SettingPage.id: (context) => const SettingPage()
       },
     );
   }
