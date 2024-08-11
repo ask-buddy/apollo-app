@@ -1,5 +1,7 @@
+import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:torch_light/torch_light.dart';
 import '../../Components/camera_button.dart';
 import '../../Components/flash_button.dart';
 import '../../Components/galery_button.dart';
@@ -15,6 +17,16 @@ class CapturePage extends StatefulWidget {
 }
 
 class _CapturePageState extends State<CapturePage> {
+  final ScrollController _scrollController = ScrollController();
+  int _selectedIndex = 0;
+  bool _isFlashOn = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return _buildCapturePage(widget.cameraProvider, context);
@@ -35,32 +47,32 @@ class _CapturePageState extends State<CapturePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 40,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 5,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (_, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 122,
-                            margin: const EdgeInsets.only(right: 10),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.grey,
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context)
+                          .size
+                          .width, // Lebar layar penuh
+                      child: SingleChildScrollView(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 3.5,
                             ),
-                            child: const Center(
-                              child: Text("Feature"),
+                            _buildButton(0, 'Similar Question'),
+                            _buildButton(1, 'Question Solver'),
+                            _buildButton(2, 'Answer Cheker'),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 3,
                             ),
-                          ),
-                        );
-                      },
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+
                   const SizedBox(height: 24),
 
                   /// FOOTER
@@ -69,7 +81,8 @@ class _CapturePageState extends State<CapturePage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        FlashButton(isFlashOn: true, onPressed: () {}),
+                        FlashButton(
+                            isFlashOn: _isFlashOn, onPressed: _toggleFlash),
                         CameraButton(
                           onPressed: () {
                             cameraProvider.onCapture(true, context);
@@ -89,5 +102,61 @@ class _CapturePageState extends State<CapturePage> {
         ),
       ),
     );
+  }
+
+  Widget _buildButton(int index, String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            _selectedIndex = index;
+          });
+          _scrollToIndex(index);
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor:
+                _selectedIndex == index ? ABColors.accent : ABColors.darkGray,
+            foregroundColor:
+                _selectedIndex == index ? ABColors.black : ABColors.white,
+            side: BorderSide.none,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12)),
+        child: Text(text),
+      ),
+    );
+  }
+
+  void _scrollToIndex(int index) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      double buttonWidth = 130;
+      double offset = 0;
+      if (index == 0) {
+        offset = (buttonWidth * index + (index * 10 * index));
+      } else {
+        offset = (buttonWidth * index + (index * 10 * index) + 20);
+      }
+      _scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    });
+  }
+
+  Future<void> _toggleFlash() async {
+    print("oke");
+    try {
+      if (_isFlashOn) {
+        await TorchLight.disableTorch();
+      } else {
+        await TorchLight.enableTorch();
+      }
+      setState(() {
+        print("state");
+        _isFlashOn = !_isFlashOn;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 }
