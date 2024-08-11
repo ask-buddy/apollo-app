@@ -10,6 +10,7 @@ class ABAppTheme {
     useMaterial3: true,
     primaryColor: ABColors.primary,
     brightness: Brightness.light,
+    scaffoldBackgroundColor: ABColors.deepSea,
     elevatedButtonTheme: ABElevatedButtonTheme.lightElevatedButtonTheme,
     outlinedButtonTheme: ABOutlinedButtonTheme.lightOutlinedButtonTheme,
     inputDecorationTheme: ABTextFieldTheme.lightInputDecorationTheme,
