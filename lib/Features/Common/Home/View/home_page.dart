@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SettingButton(
                   onPressed: () {},
-                  iconColor: _selectedSegment == 0 ? Colors.white : Colors.white,
+                  iconColor: Colors.white,
                 ),
                 Container(
                   height: 40,
