@@ -22,6 +22,12 @@ class _CapturePageState extends State<CapturePage> {
   bool _isFlashOn = false;
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _buildCapturePage(widget.cameraProvider, context);
   }
