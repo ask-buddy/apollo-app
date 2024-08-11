@@ -4,6 +4,7 @@ import 'package:apollo_app/Features/Capture/Components/notebook_button.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
 import 'package:apollo_app/Features/Chat/Presentation/View/chat_page.dart';
+import 'package:apollo_app/Features/Common/Setting/View/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,8 +16,11 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+typedef CallBackContext = Function(BuildContext context);
+
 class _HomePageState extends State<HomePage> {
   int _selectedSegment = 1;
+  late CaptureProvider _captureProvider;
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,12 @@ class _HomePageState extends State<HomePage> {
         Provider.of<CaptureProvider>(context, listen: false).init();
       });
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _captureProvider = Provider.of<CaptureProvider>(context, listen: false);
   }
 
   @override
@@ -42,7 +52,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    Provider.of<CaptureProvider>(context, listen: false).disposeCamera();
+    _captureProvider.disposeCamera();
     super.dispose();
   }
 
@@ -58,13 +68,14 @@ class _HomePageState extends State<HomePage> {
                   cameraProvider: cameraProvider,
                 )
               : const ChatPage(),
-          _buildNavbar(),
+          _buildNavbar(
+              onPressedSetting: (context) => navigateToSetting(context)),
         ],
       ),
     ));
   }
 
-  Widget _buildNavbar() {
+  Widget _buildNavbar({required CallBackContext onPressedSetting}) {
     return Container(
       color: ABColors.deepSea,
       child: IntrinsicHeight(
@@ -76,7 +87,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SettingButton(
-                  onPressed: () {},
+                  onPressed: () => onPressedSetting(context),
                   iconColor: Colors.white,
                 ),
                 Container(
@@ -107,7 +118,9 @@ class _HomePageState extends State<HomePage> {
                           child: Icon(
                             Icons.camera_alt,
                             size: 16, // Set icon size to 16x16
-                            color: _selectedSegment == 0 ? Colors.black : Colors.white.withOpacity(0.5),
+                            color: _selectedSegment == 0
+                                ? Colors.black
+                                : Colors.white.withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -131,10 +144,12 @@ class _HomePageState extends State<HomePage> {
                               bottomRight: Radius.circular(9),
                             ),
                           ),
-                         child: Icon(
+                          child: Icon(
                             Icons.chat,
                             size: 16, // Set icon size to 16x16
-                            color: _selectedSegment == 1 ? Colors.black : Colors.white.withOpacity(0.5),
+                            color: _selectedSegment == 1
+                                ? Colors.black
+                                : Colors.white.withOpacity(0.5),
                           ),
                         ),
                       ),
@@ -152,5 +167,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  navigateToSetting(BuildContext context) {
+    Navigator.pushNamed(context, SettingPage.id);
   }
 }
