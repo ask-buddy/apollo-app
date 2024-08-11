@@ -24,4 +24,5 @@ class ABTexts {
   static const String signGoogle = "Sign in with Google";
   static const String dontHaveAcc = "Don’t have an account?";
   static const String createAcc = "Create account now";
+  static const String moreExp = "Show me more explanation";
 }
