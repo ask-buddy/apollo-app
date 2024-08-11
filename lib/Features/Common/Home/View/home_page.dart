@@ -1,3 +1,4 @@
+import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:apollo_app/Core/Widget/button/setting_button.dart';
 import 'package:apollo_app/Features/Capture/Components/notebook_button.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
@@ -63,84 +64,91 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  Padding _buildNavbar() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SettingButton(
-              onPressed: () {},
-              iconColor: _selectedSegment == 0 ? Colors.white : Colors.black,
-            ),
-            Container(
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedSegment = 0;
-                      });
-                      Provider.of<CaptureProvider>(context, listen: false)
-                          .init();
-                    },
-                    child: Container(
-                      width: 57,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: _selectedSegment == 0
-                            ? Colors.blue
-                            : Colors.grey[300],
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(9),
-                          bottomLeft: Radius.circular(9),
+  Widget _buildNavbar() {
+    return Container(
+      color: ABColors.deepSea,
+      child: IntrinsicHeight(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SettingButton(
+                  onPressed: () {},
+                  iconColor: _selectedSegment == 0 ? Colors.white : Colors.white,
+                ),
+                Container(
+                  height: 40,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedSegment = 0;
+                          });
+                          Provider.of<CaptureProvider>(context, listen: false)
+                              .init();
+                        },
+                        child: Container(
+                          width: 57,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: _selectedSegment == 0
+                                ? ABColors.accent
+                                : Colors.white.withOpacity(0.25),
+                            borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(9),
+                              bottomLeft: Radius.circular(9),
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.camera_alt,
+                            size: 16, // Set icon size to 16x16
+                            color: _selectedSegment == 0 ? Colors.black : Colors.white.withOpacity(0.5),
+                          ),
                         ),
                       ),
-                      child: Icon(Icons.camera_alt,
-                          color: _selectedSegment == 0
-                              ? Colors.white
-                              : Colors.black),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _selectedSegment = 1;
-                      });
-                      Provider.of<CaptureProvider>(context, listen: false)
-                          .disposeCamera();
-                    },
-                    child: Container(
-                      width: 57,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: _selectedSegment == 1
-                            ? Colors.blue
-                            : Colors.grey[300],
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(9),
-                          bottomRight: Radius.circular(9),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _selectedSegment = 1;
+                          });
+                          Provider.of<CaptureProvider>(context, listen: false)
+                              .disposeCamera();
+                        },
+                        child: Container(
+                          width: 57,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: _selectedSegment == 1
+                                ? ABColors.accent
+                                : Colors.white.withOpacity(0.25),
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(9),
+                              bottomRight: Radius.circular(9),
+                            ),
+                          ),
+                         child: Icon(
+                            Icons.chat,
+                            size: 16, // Set icon size to 16x16
+                            color: _selectedSegment == 1 ? Colors.black : Colors.white.withOpacity(0.5),
+                          ),
                         ),
                       ),
-                      child: Icon(Icons.chat,
-                          color: _selectedSegment == 1
-                              ? Colors.white
-                              : Colors.black),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                //SWITCH
+                NotebookButton(
+                  onPressed: () {},
+                  iconColor: _selectedSegment == 0 ? Colors.white : Colors.white,
+                )
+              ],
             ),
-            //SWITCH
-            NotebookButton(
-              onPressed: () {},
-              iconColor: _selectedSegment == 0 ? Colors.white : Colors.black,
-            )
-          ],
+          ),
         ),
       ),
     );
