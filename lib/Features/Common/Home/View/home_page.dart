@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                 //SWITCH
                 NotebookButton(
                   onPressed: () {},
-                  iconColor: _selectedSegment == 0 ? Colors.white : Colors.white,
+                  iconColor: Colors.white,
                 )
               ],
             ),
