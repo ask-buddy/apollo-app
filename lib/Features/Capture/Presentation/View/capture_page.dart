@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../../Components/camera_button.dart';
 import '../../Components/flash_button.dart';
@@ -88,23 +89,5 @@ class _CapturePageState extends State<CapturePage> {
         ),
       ),
     );
-  }
-
-  void onCapture(BuildContext context) async {
-    try {
-      // Capture the image
-      final XFile picture = await cameraController!.takePicture();
-      if (!Navigator.of(context).mounted) return;
-
-      // Navigate to PreviewPage
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PreviewPage(imgPath: picture),
-        ),
-      );
-    } catch (e) {
-      print(e);
-    }
   }
 }
