@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       themeMode: ThemeMode.system,
       theme: ABAppTheme.lightTheme,
-      darkTheme: ABAppTheme.darkTheme,
       initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),

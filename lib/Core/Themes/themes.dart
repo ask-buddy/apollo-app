@@ -14,12 +14,4 @@ class ABAppTheme {
     outlinedButtonTheme: ABOutlinedButtonTheme.lightOutlinedButtonTheme,
     inputDecorationTheme: ABTextFieldTheme.lightInputDecorationTheme,
   );
-  static ThemeData darkTheme = ThemeData(
-    useMaterial3: true,
-    primaryColor: ABColors.primaryDark,
-    brightness: Brightness.dark,
-    elevatedButtonTheme: ABElevatedButtonTheme.darkElevatedButtonTheme,
-    outlinedButtonTheme: ABOutlinedButtonTheme.darkOutlinedButtonTheme,
-    inputDecorationTheme: ABTextFieldTheme.darkInputDecorationTheme,
-  );
 }
