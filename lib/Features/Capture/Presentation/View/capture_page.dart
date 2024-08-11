@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import '../../Components/camera_button.dart';
 import '../../Components/flash_button.dart';

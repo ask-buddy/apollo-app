@@ -16,10 +16,12 @@ class ABTexts {
   static const String forgetPassword = "Forget Password?";
   static const String signIn = "Sign In";
   static const String createAccount = "Create Account";
-  static const String orSignInWith = "or sign in with";
-  static const String orSignUpWith = "or sign up with";
+  static const String or = " or ";
   static const String termsOfUse = "Terms of use";
   static const String verificationCode = "verificationCode";
   static const String resendEmail = "Resend Email";
   static const String resendEmailIn = "Resend email in";
+  static const String signGoogle = "Sign in with Google";
+  static const String dontHaveAcc = "Don’t have an account?";
+  static const String createAcc = "Create account now";
 }

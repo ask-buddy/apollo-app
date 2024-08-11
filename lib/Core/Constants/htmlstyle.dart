@@ -23,7 +23,6 @@ class ABStyle {
               padding: 8px 12px;
               background-color: #ADD8E6; 
               border-radius: 8px;
-              font-size : 14px;
               font-weight: bold;
               margin-bottom: 30px
             }

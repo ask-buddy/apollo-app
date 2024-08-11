@@ -16,22 +16,21 @@ class ABFormDivider extends StatelessWidget {
       children: [
         const Flexible(
           child: Divider(
-            color: ABColors.stone,
+            color: ABColors.white,
             thickness: 0.5,
-            indent: 60,
             endIndent: 5,
           ),
         ),
         Text(
           dividerText,
-          style: const TextStyle(fontWeight: FontWeight.w400),
+          style:
+              const TextStyle(fontWeight: FontWeight.w400, color: Colors.white),
         ),
         const Flexible(
           child: Divider(
-            color: ABColors.stone,
+            color: ABColors.white,
             thickness: 0.5,
             indent: 5,
-            endIndent: 60,
           ),
         )
       ],

@@ -33,128 +33,153 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ABColors.deepSea,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: ABColors.deepSea,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Logo, title
-              const Text(
-                ABTexts.loginTitle,
-                style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-              ),
-              const Text(ABTexts.loginSubTitle),
-
-              /// Form
-              const SizedBox(height: 24),
-              Form(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: IntrinsicHeight(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // FIELD EMAIL
-                      TextFormField(
-                        controller: _emailTextController,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.email),
-                          labelText: ABTexts.email,
+                      // Logo, title
+                      const Text(
+                        ABTexts.loginTitle,
+                        style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: ABColors.secondary),
+                      ),
+                      const Text(
+                        ABTexts.loginSubTitle,
+                        style: TextStyle(color: Colors.white),
+                      ),
+
+                      // Form
+                      const SizedBox(height: 24),
+                      Form(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          child: Column(
+                            children: [
+                              // FIELD EMAIL
+                              TextFormField(
+                                controller: _emailTextController,
+                                style: const TextStyle(color: Colors.white),
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.email),
+                                  labelText: ABTexts.email,
+                                ),
+                              ),
+                              const SizedBox(height: 24),
+
+                              // FIELD PASSWORD
+                              TextFormField(
+                                controller: _passwordTextController,
+                                style: const TextStyle(color: Colors.white),
+                                obscureText: true,
+                                decoration: const InputDecoration(
+                                  prefixIcon: Icon(Icons.lock),
+                                  labelText: ABTexts.password,
+                                  suffixIcon: Icon(Icons.visibility_off),
+                                ),
+                              ),
+
+                              // FORGOT PASSWORD
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: const Text(ABTexts.forgetPassword,
+                                        style:
+                                            TextStyle(color: ABColors.accent)),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 28),
+
+                              // BUTTON LOGIN
+                              _showSpinner
+                                  ? const CircularProgressIndicator()
+                                  : SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: _doLogin,
+                                        child: const Text(ABTexts.signIn),
+                                      ),
+                                    ),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
 
-                      // FIELD PASSWORD
-                      TextFormField(
-                        controller: _passwordTextController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.lock),
-                          labelText: ABTexts.password,
-                          suffixIcon: Icon(Icons.visibility_off),
+                      // DIVIDER
+                      const Spacer(),
+                      const ABFormDivider(dividerText: ABTexts.or),
+                      const SizedBox(height: 22),
+
+                      // Footer
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _doLogin,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            foregroundColor: ABColors.black,
+                            side: BorderSide.none,
+                            elevation: 0,
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image(
+                                width: ABSizes.iconMd,
+                                height: ABSizes.iconMd,
+                                image: AssetImage(ABImages.google),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                ABTexts.signGoogle,
+                                style: TextStyle(fontWeight: FontWeight.w400),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-
-                      // FORGOt PASSWORD
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                      const SizedBox(height: 32),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(ABTexts.forgetPassword),
+                          Text(
+                            ABTexts.dontHaveAcc,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            ABTexts.createAcc,
+                            style: TextStyle(
+                                color: ABColors.accent,
+                                fontWeight: FontWeight.bold),
                           )
                         ],
                       ),
-                      const SizedBox(height: 24),
-
-                      // BUTTON LOGIN
-                      _showSpinner
-                          ? const CircularProgressIndicator()
-                          : SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: _doLogin,
-                                child: const Text(ABTexts.signIn),
-                              ),
-                            ),
-                      const SizedBox(height: 16),
-
-                      // BUTTON SIGN UP
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          child: const Text(ABTexts.createAccount),
-                        ),
-                      ),
+                      const SizedBox(height: 64)
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-
-              // DIVIDER
-              const ABFormDivider(dividerText: ABTexts.orSignInWith),
-              const SizedBox(height: 16),
-
-              /// Footer
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: ABColors.stone),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Image(
-                        width: ABSizes.iconMd,
-                        height: ABSizes.iconMd,
-                        image: AssetImage(ABImages.apple),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: ABColors.stone),
-                        borderRadius: BorderRadius.circular(100)),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: const Image(
-                        width: ABSizes.iconMd,
-                        height: ABSizes.iconMd,
-                        image: AssetImage(ABImages.google),
-                      ),
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

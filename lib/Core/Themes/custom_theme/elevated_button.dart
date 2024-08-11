@@ -6,14 +6,14 @@ class ABElevatedButtonTheme {
   static final lightElevatedButtonTheme = ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       elevation: 0,
-      foregroundColor: Colors.white,
-      backgroundColor: ABColors.primary,
+      foregroundColor: Colors.black,
+      backgroundColor: ABColors.accent,
       disabledBackgroundColor: Colors.grey,
       disabledForegroundColor: Colors.grey,
-      side: const BorderSide(color: Colors.blue),
+      side: const BorderSide(color: ABColors.accent),
       padding: const EdgeInsets.symmetric(vertical: 18),
       textStyle: const TextStyle(
-          fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
+          fontSize: 16, color: Colors.black, fontWeight: FontWeight.w400),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -21,20 +21,4 @@ class ABElevatedButtonTheme {
   );
 
   ///DARK THEME
-  static final darkElevatedButtonTheme = ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      elevation: 0,
-      foregroundColor: Colors.white,
-      backgroundColor: ABColors.primaryDark,
-      disabledBackgroundColor: Colors.grey,
-      disabledForegroundColor: Colors.grey,
-      side: const BorderSide(color: Colors.blue),
-      padding: const EdgeInsets.symmetric(vertical: 18),
-      textStyle: const TextStyle(
-          fontSize: 16, color: Colors.white, fontWeight: FontWeight.w600),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-    ),
-  );
 }

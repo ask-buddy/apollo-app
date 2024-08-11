@@ -1,7 +1,7 @@
+import 'package:apollo_app/Application/main.dart';
+import 'package:apollo_app/Features/Common/Home/View/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../Common/Home/View/home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   static String id = '/register';
