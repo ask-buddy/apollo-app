@@ -5,6 +5,7 @@ import 'package:apollo_app/Features/Common/SplashScreen/View/splash_screen.dart'
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/login_page.dart';
 import 'package:apollo_app/Features/Authentication/SignUp/registration_page.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
+import 'package:apollo_app/Features/Explanation/Presentation/Provider/explanation_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -19,7 +20,10 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => CaptureProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => CaptureProvider()),
+        ChangeNotifierProvider(create: (_) => ExplanationProvider()),
+      ],
       child: const MyApp(),
     ),
   );
