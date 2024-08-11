@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (snapshot.hasData) {
+        if (!snapshot.hasData) {
           // Need To refactor to correct page when ready
           return const HomePage(); // User is logged in
         } else {
