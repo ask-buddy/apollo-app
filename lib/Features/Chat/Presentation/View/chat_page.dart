@@ -4,6 +4,7 @@ import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:apollo_app/Core/Themes/Textstyle/AB_textstyle.dart';
 import 'package:apollo_app/Features/Chat/Presentation/Enum/prompt_enum.dart';
 import 'package:apollo_app/Features/Chat/Presentation/Providers/chat_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class ChatPage extends StatefulWidget {
 class ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  late ChatProvider _chatProvider;
+  late ChatProvider chatProvider;
   @override
   void dispose() {
     _controller.dispose();
@@ -32,17 +33,17 @@ class ChatPageState extends State<ChatPage> {
 
   void _sendMessage() async {
     if (_controller.text.isEmpty) return;
-    _chatProvider.changePrompt(PromptEnum.normalPrompt);
+    chatProvider.changePrompt(PromptEnum.normalPrompt);
     FocusManager.instance.primaryFocus?.unfocus();
     bool isAtBottom =
         _scrollController.offset >= _scrollController.position.maxScrollExtent;
     String userText = _controller.text;
     _controller.clear();
-    _chatProvider.appendMessages(userText, context);
+    chatProvider.appendMessages(userText, context);
 
     if (userText != null &&
-        _chatProvider.promptState == PromptEnum.normalPrompt) {
-      _chatProvider.doPrompt(userText, context, null);
+        chatProvider.promptState == PromptEnum.normalPrompt) {
+      chatProvider.doPrompt(userText, context, null);
     }
 
     if (isAtBottom) {
@@ -60,7 +61,7 @@ class ChatPageState extends State<ChatPage> {
     bool isAtBottom =
         _scrollController.offset >= _scrollController.position.maxScrollExtent;
 
-    _chatProvider.clearChat();
+    chatProvider.clearChat();
 
     if (isAtBottom) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -90,7 +91,7 @@ class ChatPageState extends State<ChatPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Generate similar question')),
     );
-    _chatProvider.changePrompt(PromptEnum.generateSimiliarQuestion);
+    chatProvider.changePrompt(PromptEnum.generateSimiliarQuestion);
     widget.callback();
   }
 
@@ -98,7 +99,7 @@ class ChatPageState extends State<ChatPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Solve new Question')),
     );
-    _chatProvider.changePrompt(PromptEnum.solveNewQuestion);
+    chatProvider.changePrompt(PromptEnum.solveNewQuestion);
     widget.callback();
   }
 
@@ -106,7 +107,7 @@ class ChatPageState extends State<ChatPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Check my answer')),
     );
-    _chatProvider.changePrompt(PromptEnum.checkAnswer);
+    chatProvider.changePrompt(PromptEnum.checkAnswer);
     widget.callback();
   }
 
@@ -114,18 +115,18 @@ class ChatPageState extends State<ChatPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('ACT exam information')),
     );
-    _chatProvider.changePrompt(PromptEnum.actExamInfo);
+    chatProvider.changePrompt(PromptEnum.actExamInfo);
     widget.callback();
   }
 
   void promptWithImage(File image) {
-    _chatProvider.doPrompt(null, context, image);
+    chatProvider.doPrompt(null, context, image);
     print("MASUKKKK");
   }
 
   @override
   Widget build(BuildContext context) {
-    _chatProvider = Provider.of<ChatProvider>(context);
+    chatProvider = Provider.of<ChatProvider>(context);
     return _buildChatPage();
   }
 
@@ -140,9 +141,9 @@ class ChatPageState extends State<ChatPage> {
                 child: ListView.builder(
                   controller: _scrollController,
                   padding: const EdgeInsets.only(top: 10),
-                  itemCount: _chatProvider.messages.length,
+                  itemCount: chatProvider.messages.length,
                   itemBuilder: (context, index) {
-                    final message = _chatProvider.messages[index];
+                    final message = chatProvider.messages[index];
                     return Column(
                       crossAxisAlignment: message['sender'] == 'ai'
                           ? CrossAxisAlignment.start
@@ -309,71 +310,110 @@ class ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildTextField() {
+  Widget _buildAiLoadingBar() {
     return Container(
-      color: ABColors.deepSea, // Background color of the input section
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: ABColors.white.withOpacity(0.04),
+      ),
       child: Padding(
-        padding:
-            const EdgeInsets.only(left: 10, right: 10, bottom: 40, top: 10),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Expanded(
-              child: Container(
-                height:
-                    40, // Set the height of the container to match TextField
-                child: TextField(
-                  controller: _controller,
-                  style: ABTextstyle.body2.copyWith(
-                      color: ABColors
-                          .concrete), // Set input text color to match hint text color
-                  decoration: InputDecoration(
-                    hintText: 'You can ask me anything...',
-                    hintStyle: ABTextstyle.body2.copyWith(
-                        color:
-                            ABColors.concrete), // Set hint text color to grey
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(4), // Rounded corners
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          4), // Rounded corners when focused
-                      borderSide: BorderSide(color: Colors.blue),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                          4), // Rounded corners when enabled
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 10), // Center the hint text vertically
-                  ),
-                ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: CircularProgressIndicator(
+                color: ABColors.white,
               ),
             ),
-            SizedBox(width: 10), // Add space between TextField and send icon
-            GestureDetector(
-              onTap: _sendMessage, // Function to call when the area is tapped
-              child: Container(
-                height: 40,
-                width: 48,
-                decoration: BoxDecoration(
-                  color: Colors.grey, // Background color
-                  borderRadius: BorderRadius.circular(4), // Rounded corners
-                ),
-                padding: EdgeInsets.all(4), // Padding around the icon
-                child: Transform.rotate(
-                  angle: -45 * 3.25 / 190, // Rotate the icon
-                  child: Icon(
-                    Icons.send,
-                    color: ABColors.deepSea, // Icon color
-                  ),
-                ),
+            SizedBox(
+              width: 8,
+            ),
+            Text(
+              "AI is solving...",
+              style: ABTextstyle.body1.copyWith(
+                color: ABColors.white,
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField() {
+    return Column(
+      children: [
+        chatProvider.isLoading ? _buildAiLoadingBar() : const SizedBox(),
+        Container(
+          color: ABColors.deepSea, // Background color of the input section
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 40, top: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    height:
+                        40, // Set the height of the container to match TextField
+                    child: TextField(
+                      controller: _controller,
+                      style: ABTextstyle.body2.copyWith(
+                          color: ABColors
+                              .concrete), // Set input text color to match hint text color
+                      decoration: InputDecoration(
+                        hintText: 'You can ask me anything...',
+                        hintStyle: ABTextstyle.body2.copyWith(
+                            color: ABColors
+                                .concrete), // Set hint text color to grey
+                        border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.circular(4), // Rounded corners
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                              4), // Rounded corners when focused
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                              4), // Rounded corners when enabled
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 10), // Center the hint text vertically
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                    width: 10), // Add space between TextField and send icon
+                GestureDetector(
+                  onTap:
+                      _sendMessage, // Function to call when the area is tapped
+                  child: Container(
+                    height: 40,
+                    width: 48,
+                    decoration: BoxDecoration(
+                      color: Colors.grey, // Background color
+                      borderRadius: BorderRadius.circular(4), // Rounded corners
+                    ),
+                    padding: EdgeInsets.all(4), // Padding around the icon
+                    child: Transform.rotate(
+                      angle: -45 * 3.25 / 190, // Rotate the icon
+                      child: Icon(
+                        Icons.send,
+                        color: ABColors.deepSea, // Icon color
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
