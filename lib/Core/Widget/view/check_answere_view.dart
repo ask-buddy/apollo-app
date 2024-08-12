@@ -1,3 +1,4 @@
+import 'package:apollo_app/Features/Chat/Model/check_answer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../Constants/colors.dart';
@@ -8,24 +9,9 @@ import 'markdown_view.dart';
 class CheckAnswereCard extends StatefulWidget {
   const CheckAnswereCard({
     super.key,
-    required this.subject,
-    required this.topics,
-    required this.originalProblem,
-    required this.yourEstimatedDifficulty,
-    required this.yourEstimatedTime,
-    required this.originalAnswere,
-    required this.statement,
-    required this.comparison,
+    required this.checkAnswer,
   });
-
-  final String subject;
-  final String topics;
-  final String originalProblem;
-  final String yourEstimatedDifficulty;
-  final String yourEstimatedTime;
-  final String originalAnswere;
-  final String statement;
-  final String comparison;
+  final CheckAnswer checkAnswer;
 
   @override
   _CheckAnswereCardState createState() => _CheckAnswereCardState();
@@ -48,26 +34,33 @@ class _CheckAnswereCardState extends State<CheckAnswereCard> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //SUBJECT
-            LeftTextBold(text: widget.subject),
+            LeftTextBold(text: widget.checkAnswer.subject!),
             const SizedBox(height: 12),
 
             //TOPICS
-            LeftTextBold(text: widget.topics),
+            LeftTextBold(text: widget.checkAnswer.topics!),
             const SizedBox(height: 12),
-            MarkdownView(resultText: widget.originalProblem),
+            MarkdownView(
+                resultText: widget.checkAnswer.yourQuestion!.originalProblem!),
             //LEVEL
             TextFireClock(
               color: ABColors.secondaryGoldYellow,
-              text1: widget.yourEstimatedDifficulty,
+              text1: widget.checkAnswer.yourQuestion!.estimatedDifficulty!,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: widget.yourEstimatedTime,
+              text2: widget.checkAnswer.yourQuestion!.estimatedTime!,
             ),
             const SizedBox(height: 28),
 
             //STEP
-            MarkdownView(resultText: widget.originalAnswere),
-            //DETAIL EXPLANATION
+            MarkdownView(
+                resultText: widget.checkAnswer.yourAnswer!.originalAnswer!),
+            const SizedBox(height: 12),
+            LeftTextBold(
+                text: widget.checkAnswer.answerVerification!.statement!),
+            const SizedBox(height: 12),
+            LeftTextBold(
+                text: widget.checkAnswer.answerVerification!.comparison!),
           ],
         ),
       ),

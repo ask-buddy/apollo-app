@@ -1,50 +1,59 @@
 class SolveResponse {
   String? subject;
-  String? topik;
-  Question? question;
-  String? content;
+  String? topics;
+  YourQuestion? yourQuestion;
+  String? solutionSteps;
+  String? detailedExplanation;
 
-  SolveResponse({this.subject, this.topik, this.question, this.content});
+  SolveResponse(
+      {this.subject,
+      this.topics,
+      this.yourQuestion,
+      this.solutionSteps,
+      this.detailedExplanation});
 
   SolveResponse.fromJson(Map<String, dynamic> json) {
-    subject = json['Subject'];
-    topik = json['Topik'];
-    question = json['Question'] != null
-        ? new Question.fromJson(json['Question'])
+    subject = json['subject'];
+    topics = json['topics'];
+    yourQuestion = json['yourQuestion'] != null
+        ? new YourQuestion.fromJson(json['yourQuestion'])
         : null;
-    content = json['Content'];
+    solutionSteps = json['solutionSteps'];
+    detailedExplanation = json['detailedExplanation'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Subject'] = this.subject;
-    data['Topik'] = this.topik;
-    if (this.question != null) {
-      data['Question'] = this.question!.toJson();
+    data['subject'] = this.subject;
+    data['topics'] = this.topics;
+    if (this.yourQuestion != null) {
+      data['yourQuestion'] = this.yourQuestion!.toJson();
     }
-    data['Content'] = this.content;
+    data['solutionSteps'] = this.solutionSteps;
+    data['detailedExplanation'] = this.detailedExplanation;
     return data;
   }
 }
 
-class Question {
-  String? content;
-  int? complexity;
-  String? time;
+class YourQuestion {
+  String? originalProblem;
+  String? estimatedDifficulty;
+  String? estimatedTime;
 
-  Question({this.content, this.complexity, this.time});
+  YourQuestion(
+      {this.originalProblem, this.estimatedDifficulty, this.estimatedTime});
 
-  Question.fromJson(Map<String, dynamic> json) {
-    content = json['Content'];
-    complexity = json['Complexity'];
-    time = json['Time'];
+  YourQuestion.fromJson(Map<String, dynamic> json) {
+    originalProblem = json['originalProblem'];
+    estimatedDifficulty = json['estimatedDifficulty'];
+    estimatedTime = json['estimatedTime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Content'] = this.content;
-    data['Complexity'] = this.complexity;
-    data['Time'] = this.time;
+    data['originalProblem'] = this.originalProblem;
+    data['estimatedDifficulty'] = this.estimatedDifficulty;
+    data['estimatedTime'] = this.estimatedTime;
     return data;
   }
 }

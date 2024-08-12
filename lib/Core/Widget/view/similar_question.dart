@@ -1,4 +1,5 @@
 import 'package:apollo_app/Core/Utilities/Helper/get_color_by_level.dart';
+import 'package:apollo_app/Features/Chat/Model/similar_question.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -10,23 +11,9 @@ import 'markdown_view.dart';
 class SimilarQuestionCard extends StatelessWidget {
   const SimilarQuestionCard({
     super.key,
-    required this.subject,
-    required this.topics,
-    required this.yourOriginalProblem,
-    required this.yourEstimatedDifficulty,
-    required this.yourEstimatedTime,
-    required this.newOriginalProblem,
-    required this.newEstimatedDifficulty,
-    required this.newEstimatedTime,
+    required this.similarQuestion,
   });
-  final String subject;
-  final String topics;
-  final String yourOriginalProblem;
-  final String yourEstimatedDifficulty;
-  final String yourEstimatedTime;
-  final String newOriginalProblem;
-  final String newEstimatedDifficulty;
-  final String newEstimatedTime;
+  final SimilarQuestion similarQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -42,32 +29,36 @@ class SimilarQuestionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // SUBJECT
-            LeftTextBold(text: subject),
+            LeftTextBold(text: similarQuestion.subject!),
             const SizedBox(height: 12),
 
             //TPOICS
-            LeftTextBold(text: topics),
+            LeftTextBold(text: similarQuestion.topics!),
             const SizedBox(height: 24),
 
             //YOUR QUESTION
-            MarkdownView(resultText: yourOriginalProblem),
+            MarkdownView(
+                resultText: similarQuestion.yourQuestion!.originalProblem!),
             TextFireClock(
-              color: getDifficultyColor(yourEstimatedDifficulty),
-              text1: yourEstimatedDifficulty,
+              color: getDifficultyColor(
+                  similarQuestion.yourQuestion!.estimatedDifficulty!),
+              text1: similarQuestion.yourQuestion!.estimatedDifficulty!,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: "$yourEstimatedTime Mnt",
+              text2: similarQuestion.yourQuestion!.estimatedTime!,
             ),
             const SizedBox(height: 24),
 
             //NEW QUESTION
-            MarkdownView(resultText: newOriginalProblem),
+            MarkdownView(
+                resultText: similarQuestion.newQuestion!.generatedProblem!),
             TextFireClock(
-              color: getDifficultyColor(yourEstimatedDifficulty),
-              text1: newEstimatedDifficulty,
+              color: getDifficultyColor(
+                  similarQuestion.newQuestion!.estimatedDifficulty!),
+              text1: similarQuestion.newQuestion!.estimatedDifficulty!,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: newEstimatedTime,
+              text2: similarQuestion.newQuestion!.estimatedTime!,
             ),
           ],
         ),
