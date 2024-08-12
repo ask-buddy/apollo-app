@@ -58,7 +58,7 @@ class YourQuestion {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['originalProblem'] = this.originalProblem;
     data['estimatedDifficulty'] = this.estimatedDifficulty;
     data['estimatedTime'] = this.estimatedTime;
@@ -76,7 +76,7 @@ class YourAnswer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['originalAnswer'] = this.originalAnswer;
     return data;
   }
