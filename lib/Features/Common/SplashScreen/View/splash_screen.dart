@@ -19,8 +19,7 @@ class SplashScreen extends StatelessWidget {
         }
         if (snapshot.hasData) {
           // Need To refactor to correct page when ready
-          // return const HomePage(); // User is logged in
-          return const ExplanationPage(); // User is logged in
+          return const HomePage(); // User is logged in
         } else {
           return const WelcomePage(); // User is NOT logged in
         }
