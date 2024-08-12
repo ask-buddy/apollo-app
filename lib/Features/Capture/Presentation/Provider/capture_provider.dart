@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +11,7 @@ class CaptureProvider with ChangeNotifier {
   CameraController? cameraController;
   late List<CameraDescription> cameras;
   int selectedCameraIndex = 0;
+  File? capturedImage;
 
   CaptureProvider() {
     init();
@@ -71,12 +74,8 @@ class CaptureProvider with ChangeNotifier {
     if (image != null) {
       final croppedImage = await cropsImage(image);
       if (croppedImage != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CroppedImage(image: croppedImage),
-          ),
-        );
+        capturedImage = _convertCroppedFileToFile(croppedImage);
+        notifyListeners();
       }
     }
   }
@@ -101,5 +100,9 @@ class CaptureProvider with ChangeNotifier {
       ],
     );
     return croppedFile;
+  }
+
+  File _convertCroppedFileToFile(CroppedFile croppedFile) {
+    return File(croppedFile.path);
   }
 }

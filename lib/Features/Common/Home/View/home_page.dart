@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:apollo_app/Core/Widget/button/setting_button.dart';
 import 'package:apollo_app/Features/Capture/Components/notebook_button.dart';
@@ -19,16 +21,26 @@ class HomePage extends StatefulWidget {
 typedef CallBackContext = Function(BuildContext context);
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ChatPageState> _chatPageKey = GlobalKey<ChatPageState>();
   int _selectedSegment = 1;
   late CaptureProvider _captureProvider;
+  late File? capturedImage;
+  late ChatPage chatPage;
   @override
   void initState() {
     super.initState();
+
     if (_selectedSegment == 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<CaptureProvider>(context, listen: false).init();
       });
     }
+  }
+
+  void _invokeChildMethod(File image) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _chatPageKey.currentState?.promptWithImage(image);
+    });
   }
 
   @override
@@ -58,7 +70,16 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    chatPage = ChatPage(
+      key: _chatPageKey,
+    );
     final cameraProvider = Provider.of<CaptureProvider>(context);
+    chatPage.callback = () {
+      setState(() {
+        _selectedSegment = 0;
+        cameraProvider.init();
+      });
+    };
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -66,10 +87,17 @@ class _HomePageState extends State<HomePage> {
           _selectedSegment == 0
               ? CapturePage(
                   cameraProvider: cameraProvider,
+                  callBackWithImage: (File image) {
+                    setState(() {
+                      _selectedSegment = 1;
+                    });
+                    _invokeChildMethod(image);
+                  },
                 )
-              : const ChatPage(),
+              : chatPage,
           _buildNavbar(
-              onPressedSetting: (context) => navigateToSetting(context)),
+            onPressedSetting: (context) => navigateToSetting(context),
+          ),
         ],
       ),
     ));
@@ -90,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () => onPressedSetting(context),
                   iconColor: Colors.white,
                 ),
-                Container(
+                SizedBox(
                   height: 40,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

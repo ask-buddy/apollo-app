@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:apollo_app/Core/Constants/colors.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:torch_light/torch_light.dart';
 import '../../Components/camera_button.dart';
@@ -8,9 +9,15 @@ import '../../Components/galery_button.dart';
 import '../Provider/capture_provider.dart';
 import 'camera_preview.dart';
 
+typedef OnDismissWithImage = void Function(File image);
+
 class CapturePage extends StatefulWidget {
   final CaptureProvider cameraProvider;
-  const CapturePage({super.key, required this.cameraProvider});
+  final OnDismissWithImage callBackWithImage;
+  const CapturePage(
+      {super.key,
+      required this.cameraProvider,
+      required this.callBackWithImage});
 
   @override
   State<CapturePage> createState() => _CapturePageState();
@@ -84,8 +91,12 @@ class _CapturePageState extends State<CapturePage> {
                         FlashButton(
                             isFlashOn: _isFlashOn, onPressed: _toggleFlash),
                         CameraButton(
-                          onPressed: () {
-                            cameraProvider.onCapture(true, context);
+                          onPressed: () async {
+                            await cameraProvider.onCapture(true, context);
+                            if (cameraProvider.capturedImage != null) {
+                              widget.callBackWithImage(
+                                  cameraProvider.capturedImage!);
+                            }
                           },
                         ),
                         GaleryButton(onPressed: () {

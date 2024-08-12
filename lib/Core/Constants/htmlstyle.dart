@@ -21,21 +21,21 @@ class ABStyle {
             }
             .mata-pelajaran{
               padding: 8px 12px;
-              background-color: #ADD8E6; 
+
               border-radius: 8px;
               font-weight: bold;
               margin-bottom: 30px
             }
             .materi-topics{
             padding: 6px 8px;
-              background-color: #FFC0CB; 
+
               border-radius: 8px;
               font-size : 12px;
               font-weight: semibold;
 
             .tingkat-kesulitan-mudah{
               padding: 6px 8px;
-              background-color: #90EE90; 
+
               border-radius: 8px;
               font-size : 12px;
               font-weight: semibold;
@@ -43,7 +43,7 @@ class ABStyle {
               }
             .tingkat-kesulitan-sedang{
               padding: 6px 8px;
-              background-color: #FFA500; 
+
               border-radius: 8px;
               font-size : 12px;
               font-weight: semibold;
@@ -52,7 +52,7 @@ class ABStyle {
             }
             .tingkat-kesulitan-sulit{
               padding: 6px 8px;
-              background-color: #FF6347; 
+
               border-radius: 8px;
               font-size : 12px;
               font-weight: semibold;

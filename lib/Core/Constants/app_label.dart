@@ -34,4 +34,5 @@ class ABTexts {
   static const String stuvyTagline = "Study Savvy, with Your AI Buddy";
   static const String onboardingDesc =
       "Empower your education with Stuvy. We're committed to making high-quality exam preparation accessible to all.";
+  static const String moreExp = "Show me more explanation";
 }
