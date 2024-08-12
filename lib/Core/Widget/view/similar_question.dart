@@ -1,3 +1,4 @@
+import 'package:apollo_app/Core/Utilities/Helper/get_color_by_level.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -11,28 +12,28 @@ class SimilarQuestionCard extends StatelessWidget {
     super.key,
     required this.subject,
     required this.topics,
-    required this.youQuestion,
-    required this.yourQuestionComplexity,
-    required this.youQuestionTime,
-    required this.newQuestion,
-    required this.newQuestionComplecxity,
-    required this.newQuestionTime,
+    required this.yourOriginalProblem,
+    required this.yourEstimatedDifficulty,
+    required this.yourEstimatedTime,
+    required this.newOriginalProblem,
+    required this.newEstimatedDifficulty,
+    required this.newEstimatedTime,
   });
   final String subject;
   final String topics;
-  final String youQuestion;
-  final int yourQuestionComplexity;
-  final String youQuestionTime;
-  final String newQuestion;
-  final int newQuestionComplecxity;
-  final String newQuestionTime;
+  final String yourOriginalProblem;
+  final String yourEstimatedDifficulty;
+  final String yourEstimatedTime;
+  final String newOriginalProblem;
+  final String newEstimatedDifficulty;
+  final String newEstimatedTime;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ABColors.white.withOpacity(0.04), // Warna background
-        borderRadius: BorderRadius.circular(8), // Radius 8
+        color: ABColors.white.withOpacity(0.04),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -40,32 +41,33 @@ class SimilarQuestionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // SUBJECT
             LeftTextBold(text: subject),
             const SizedBox(height: 12),
+
+            //TPOICS
             LeftTextBold(text: topics),
-            const SizedBox(height: 28),
-            const LeftTextBold(text: "Your Questions"),
-            const SizedBox(height: 8),
-            MarkdownView(resultText: youQuestion),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
+
+            //YOUR QUESTION
+            MarkdownView(resultText: yourOriginalProblem),
             TextFireClock(
-              color: ABColors.errorBrightRed,
-              text1: "Level $yourQuestionComplexity",
+              color: getDifficultyColor(yourEstimatedDifficulty),
+              text1: yourEstimatedDifficulty,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: "> $youQuestionTime Mnt",
+              text2: "$yourEstimatedTime Mnt",
             ),
-            const SizedBox(height: 28),
-            const LeftTextBold(text: "New Questions"),
-            const SizedBox(height: 8),
-            MarkdownView(resultText: newQuestion),
-            const SizedBox(height: 12),
+            const SizedBox(height: 24),
+
+            //NEW QUESTION
+            MarkdownView(resultText: newOriginalProblem),
             TextFireClock(
-              color: ABColors.errorBrightRed,
-              text1: "Level $newQuestionComplecxity",
+              color: getDifficultyColor(yourEstimatedDifficulty),
+              text1: newEstimatedDifficulty,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: "$newQuestionTime Mnt",
+              text2: newEstimatedTime,
             ),
           ],
         ),

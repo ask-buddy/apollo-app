@@ -111,12 +111,12 @@ class _ExplanationPageState extends State<ExplanationPage> {
                         SimilarQuestionCard(
                             subject: "subject",
                             topics: "topics",
-                            youQuestion: "youQuestion",
-                            yourQuestionComplexity: 5,
-                            youQuestionTime: "10",
-                            newQuestion: "newQuestion",
-                            newQuestionComplecxity: 5,
-                            newQuestionTime: "10"),
+                            yourOriginalProblem: "youQuestion",
+                            yourEstimatedDifficulty: 5,
+                            yourEstimatedTime: "10",
+                            newOriginalProblem: "newQuestion",
+                            newEstimatedDifficulty: 5,
+                            newEstimatedTime: "10"),
 
                         //SOLVE QUESTION
                         const SizedBox(height: 24),

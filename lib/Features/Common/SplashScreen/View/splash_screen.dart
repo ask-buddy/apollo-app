@@ -1,3 +1,4 @@
+import 'package:apollo_app/Core/Resources/resource.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
 import 'package:apollo_app/Features/Common/Home/View/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +21,8 @@ class SplashScreen extends StatelessWidget {
           // Need To refactor to correct page when ready
           return const HomePage(); // User is logged in
         } else {
-          return const WelcomePage(); // User is NOT logged in
+          return const TestScreen();
+          // return const WelcomePage(); // User is NOT logged in
         }
       },
     );
