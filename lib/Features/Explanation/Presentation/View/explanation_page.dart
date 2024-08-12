@@ -108,15 +108,6 @@ class _ExplanationPageState extends State<ExplanationPage> {
                   : const Column(
                       children: [
                         // SIMILAR QUESTION
-                        SimilarQuestionCard(
-                            subject: "subject",
-                            topics: "topics",
-                            youQuestion: "youQuestion",
-                            yourQuestionComplexity: 5,
-                            youQuestionTime: "10",
-                            newQuestion: "newQuestion",
-                            newQuestionComplecxity: 5,
-                            newQuestionTime: "10"),
 
                         //SOLVE QUESTION
                         const SizedBox(height: 24),

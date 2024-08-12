@@ -1,50 +1,102 @@
 class CheckAnswer {
   String? subject;
-  String? topik;
-  Question? question;
-  String? content;
+  String? topics;
+  YourQuestion? yourQuestion;
+  YourAnswer? yourAnswer;
+  AnswerVerification? answerVerification;
 
-  CheckAnswer({this.subject, this.topik, this.question, this.content});
+  CheckAnswer(
+      {this.subject,
+      this.topics,
+      this.yourQuestion,
+      this.yourAnswer,
+      this.answerVerification});
 
   CheckAnswer.fromJson(Map<String, dynamic> json) {
-    subject = json['Subject'];
-    topik = json['Topik'];
-    question = json['Question'] != null
-        ? new Question.fromJson(json['Question'])
+    subject = json['subject'];
+    topics = json['topics'];
+    yourQuestion = json['yourQuestion'] != null
+        ? new YourQuestion.fromJson(json['yourQuestion'])
         : null;
-    content = json['Content'];
+    yourAnswer = json['yourAnswer'] != null
+        ? new YourAnswer.fromJson(json['yourAnswer'])
+        : null;
+    answerVerification = json['answerVerification'] != null
+        ? new AnswerVerification.fromJson(json['answerVerification'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Subject'] = this.subject;
-    data['Topik'] = this.topik;
-    if (this.question != null) {
-      data['Question'] = this.question!.toJson();
+    data['subject'] = this.subject;
+    data['topics'] = this.topics;
+    if (this.yourQuestion != null) {
+      data['yourQuestion'] = this.yourQuestion!.toJson();
     }
-    data['Content'] = this.content;
+    if (this.yourAnswer != null) {
+      data['yourAnswer'] = this.yourAnswer!.toJson();
+    }
+    if (this.answerVerification != null) {
+      data['answerVerification'] = this.answerVerification!.toJson();
+    }
     return data;
   }
 }
 
-class Question {
-  String? content;
-  int? complexity;
-  String? time;
+class YourQuestion {
+  String? originalProblem;
+  String? estimatedDifficulty;
+  String? estimatedTime;
 
-  Question({this.content, this.complexity, this.time});
+  YourQuestion(
+      {this.originalProblem, this.estimatedDifficulty, this.estimatedTime});
 
-  Question.fromJson(Map<String, dynamic> json) {
-    content = json['Content'];
-    complexity = json['Complexity'];
-    time = json['Time'];
+  YourQuestion.fromJson(Map<String, dynamic> json) {
+    originalProblem = json['originalProblem'];
+    estimatedDifficulty = json['estimatedDifficulty'];
+    estimatedTime = json['estimatedTime'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Content'] = this.content;
-    data['Complexity'] = this.complexity;
-    data['Time'] = this.time;
+    data['originalProblem'] = this.originalProblem;
+    data['estimatedDifficulty'] = this.estimatedDifficulty;
+    data['estimatedTime'] = this.estimatedTime;
+    return data;
+  }
+}
+
+class YourAnswer {
+  String? originalAnswer;
+
+  YourAnswer({this.originalAnswer});
+
+  YourAnswer.fromJson(Map<String, dynamic> json) {
+    originalAnswer = json['originalAnswer'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['originalAnswer'] = this.originalAnswer;
+    return data;
+  }
+}
+
+class AnswerVerification {
+  String? statement;
+  String? comparison;
+
+  AnswerVerification({this.statement, this.comparison});
+
+  AnswerVerification.fromJson(Map<String, dynamic> json) {
+    statement = json['statement'];
+    comparison = json['comparison'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['statement'] = this.statement;
+    data['comparison'] = this.comparison;
     return data;
   }
 }
