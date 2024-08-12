@@ -1,16 +1,7 @@
 import 'dart:io';
-import 'package:apollo_app/Core/Constants/app_label.dart';
-import 'package:apollo_app/Core/Constants/colors.dart';
-import 'package:apollo_app/Core/Constants/htmlstyle.dart';
-import 'package:apollo_app/Core/Themes/Textstyle/AB_textstyle.dart';
-import 'package:apollo_app/Core/Widget/text/left_text_body.dart';
-import 'package:apollo_app/Core/Widget/text/left_text_bold.dart';
-import 'package:apollo_app/Core/Widget/text/text_fire_clock.dart';
-import 'package:apollo_app/Core/Widget/view/markdown_view.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tex/flutter_tex.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Core/Utilities/ImagePicker/image_picker_util.dart';

@@ -1,6 +1,5 @@
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
 import 'package:apollo_app/Features/Common/Home/View/home_page.dart';
-import 'package:apollo_app/Features/Explanation/Presentation/View/explanation_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
