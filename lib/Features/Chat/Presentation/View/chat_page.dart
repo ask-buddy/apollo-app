@@ -76,52 +76,32 @@ class ChatPageState extends State<ChatPage> {
 
   void _copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Copied to clipboard')),
-    );
   }
 
-  void _addToNotebook(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Added to notebook')),
-    );
-  }
+  void _addToNotebook(String text) {}
 
   void _generateSimilarQuestion() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Generate similar question')),
-    );
     chatProvider.changePrompt(PromptEnum.generateSimiliarQuestion);
     widget.callback();
   }
 
   void _solveNewQuestion() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Solve new Question')),
-    );
     chatProvider.changePrompt(PromptEnum.solveNewQuestion);
     widget.callback();
   }
 
   void _checkMyAnswer() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Check my answer')),
-    );
     chatProvider.changePrompt(PromptEnum.checkAnswer);
     widget.callback();
   }
 
   void _actExamInformation() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('ACT exam information')),
-    );
     chatProvider.changePrompt(PromptEnum.actExamInfo);
     widget.callback();
   }
 
   void promptWithImage(File image) {
     chatProvider.doPrompt(null, context, image);
-    print("MASUKKKK");
   }
 
   @override
@@ -250,12 +230,12 @@ class ChatPageState extends State<ChatPage> {
                   .withOpacity(0.2), // Background color with 20% opacity
             ),
             SizedBox(width: 10),
-            _buildElevatedButton(
-              'Save to Notebook',
-              () => _addToNotebook(message['text']!),
-              Colors.white
-                  .withOpacity(0.2), // Background color with 20% opacity
-            ),
+            // _buildElevatedButton(
+            //   'Save to Notebook',
+            //   () => _addToNotebook(message['text']!),
+            //   Colors.white
+            //       .withOpacity(0.2), // Background color with 20% opacity
+            // ),
           ],
         ),
         Padding(
