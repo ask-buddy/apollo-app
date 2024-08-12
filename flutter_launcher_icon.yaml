@@ -1,0 +1,15 @@
+# File for configuring App Icon
+# Run this command on terminal to change app icon
+# dart run flutter_launcher_icons -f flutter_launcher_icon.yaml
+dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path_android: "assets/icon/icon.png"
+  image_path_ios: "assets/icon/icon.png"
+  adaptive_icon_background: "assets/icon/adaptive_icon_background.png"
+  adaptive_icon_foreground: "assets/icon/adaptive_icon_foreground.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
