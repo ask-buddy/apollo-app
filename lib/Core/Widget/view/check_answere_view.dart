@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../Constants/app_label.dart';
 import '../../Constants/colors.dart';
-import '../../Themes/Textstyle/AB_textstyle.dart';
 import '../text/left_text_bold.dart';
 import '../text/text_fire_clock.dart';
 import 'markdown_view.dart';
 
-class SolveQuestionCard extends StatefulWidget {
-  const SolveQuestionCard({
+class CheckAnswereCard extends StatefulWidget {
+  const CheckAnswereCard({
     super.key,
     required this.subject,
     required this.topics,
+    required this.originalProblem,
     required this.yourEstimatedDifficulty,
     required this.yourEstimatedTime,
-    required this.solutionSteps,
-    required this.detailedExplanation,
-    required this.yourQuestions,
+    required this.originalAnswere,
+    required this.statement,
+    required this.comparison,
   });
 
   final String subject;
   final String topics;
-  final String yourQuestions;
+  final String originalProblem;
   final String yourEstimatedDifficulty;
   final String yourEstimatedTime;
-  final String solutionSteps;
-  final String detailedExplanation;
+  final String originalAnswere;
+  final String statement;
+  final String comparison;
 
   @override
-  _SolveQuestionCardState createState() => _SolveQuestionCardState();
+  _CheckAnswereCardState createState() => _CheckAnswereCardState();
 }
 
-class _SolveQuestionCardState extends State<SolveQuestionCard> {
+class _CheckAnswereCardState extends State<CheckAnswereCard> {
   bool isExpanded = false;
 
   @override
@@ -54,7 +54,7 @@ class _SolveQuestionCardState extends State<SolveQuestionCard> {
             //TOPICS
             LeftTextBold(text: widget.topics),
             const SizedBox(height: 12),
-            MarkdownView(resultText: widget.yourQuestions),
+            MarkdownView(resultText: widget.originalProblem),
             //LEVEL
             TextFireClock(
               color: ABColors.secondaryGoldYellow,
@@ -66,26 +66,8 @@ class _SolveQuestionCardState extends State<SolveQuestionCard> {
             const SizedBox(height: 28),
 
             //STEP
-            MarkdownView(resultText: widget.solutionSteps),
+            MarkdownView(resultText: widget.originalAnswere),
             //DETAIL EXPLANATION
-            if (isExpanded)
-              MarkdownView(resultText: widget.detailedExplanation),
-            //BUTTON MORE
-            const SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  isExpanded ? 'Hide Explanation' : ABTexts.moreExp,
-                  style: ABTextstyle.body1Medium,
-                ),
-              ),
-            ),
           ],
         ),
       ),
