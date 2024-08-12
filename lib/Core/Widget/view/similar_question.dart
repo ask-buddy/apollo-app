@@ -29,37 +29,56 @@ class SimilarQuestionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             // SUBJECT
-            LeftTextBold(text: similarQuestion.subject!),
+            similarQuestion.subject != null
+                ? LeftTextBold(text: similarQuestion.subject!)
+                : const SizedBox(),
+
             const SizedBox(height: 12),
 
-            //TPOICS
-            LeftTextBold(text: similarQuestion.topics!),
+            // TOPICS
+            similarQuestion.topics != null
+                ? LeftTextBold(text: similarQuestion.topics!)
+                : const SizedBox(),
+
             const SizedBox(height: 24),
 
-            //YOUR QUESTION
-            MarkdownView(
-                resultText: similarQuestion.yourQuestion!.originalProblem!),
-            TextFireClock(
-              color: getDifficultyColor(
-                  similarQuestion.yourQuestion!.estimatedDifficulty!),
-              text1: similarQuestion.yourQuestion!.estimatedDifficulty!,
-              icon1: FontAwesomeIcons.fire,
-              icon2: FontAwesomeIcons.solidClock,
-              text2: similarQuestion.yourQuestion!.estimatedTime!,
-            ),
+            // YOUR QUESTION
+            similarQuestion.yourQuestion?.originalProblem != null
+                ? MarkdownView(
+                    resultText: similarQuestion.yourQuestion!.originalProblem!)
+                : const SizedBox(),
+
+            similarQuestion.yourQuestion?.estimatedDifficulty != null &&
+                    similarQuestion.yourQuestion?.estimatedTime != null
+                ? TextFireClock(
+                    color: getDifficultyColor(
+                        similarQuestion.yourQuestion!.estimatedDifficulty!),
+                    text1: similarQuestion.yourQuestion!.estimatedDifficulty!,
+                    icon1: FontAwesomeIcons.fire,
+                    icon2: FontAwesomeIcons.solidClock,
+                    text2: similarQuestion.yourQuestion!.estimatedTime!,
+                  )
+                : const SizedBox(),
+
             const SizedBox(height: 24),
 
-            //NEW QUESTION
-            MarkdownView(
-                resultText: similarQuestion.newQuestion!.generatedProblem!),
-            TextFireClock(
-              color: getDifficultyColor(
-                  similarQuestion.newQuestion!.estimatedDifficulty!),
-              text1: similarQuestion.newQuestion!.estimatedDifficulty!,
-              icon1: FontAwesomeIcons.fire,
-              icon2: FontAwesomeIcons.solidClock,
-              text2: similarQuestion.newQuestion!.estimatedTime!,
-            ),
+            // NEW QUESTION
+            similarQuestion.newQuestion?.generatedProblem != null
+                ? MarkdownView(
+                    resultText: similarQuestion.newQuestion!.generatedProblem!)
+                : const SizedBox(),
+
+            similarQuestion.newQuestion?.estimatedDifficulty != null &&
+                    similarQuestion.newQuestion?.estimatedTime != null
+                ? TextFireClock(
+                    color: getDifficultyColor(
+                        similarQuestion.newQuestion!.estimatedDifficulty!),
+                    text1: similarQuestion.newQuestion!.estimatedDifficulty!,
+                    icon1: FontAwesomeIcons.fire,
+                    icon2: FontAwesomeIcons.solidClock,
+                    text2: similarQuestion.newQuestion!.estimatedTime!,
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
