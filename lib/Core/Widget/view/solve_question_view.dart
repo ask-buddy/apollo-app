@@ -7,30 +7,37 @@ import '../text/left_text_bold.dart';
 import '../text/text_fire_clock.dart';
 import 'markdown_view.dart';
 
-class SolveQuestionCard extends StatelessWidget {
+class SolveQuestionCard extends StatefulWidget {
   const SolveQuestionCard({
     super.key,
     required this.subject,
     required this.topics,
-    required this.youQuestion,
-    required this.answerComplexity,
-    required this.contentAnswere,
-    required this.answerTime,
+    required this.yourEstimatedDifficulty,
+    required this.yourEstimatedTime,
+    required this.solutionSteps,
+    required this.detailedExplanation,
   });
 
   final String subject;
   final String topics;
-  final String youQuestion;
-  final String contentAnswere;
-  final int answerComplexity;
-  final String answerTime;
+  final String yourEstimatedDifficulty;
+  final String yourEstimatedTime;
+  final String solutionSteps;
+  final String detailedExplanation;
+
+  @override
+  _SolveQuestionCardState createState() => _SolveQuestionCardState();
+}
+
+class _SolveQuestionCardState extends State<SolveQuestionCard> {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: ABColors.white.withOpacity(0.04), // Warna background
-        borderRadius: BorderRadius.circular(8), // Radius 8
+        color: ABColors.white.withOpacity(0.04),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -39,30 +46,40 @@ class SolveQuestionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             //SUBJECT
-            LeftTextBold(text: subject),
+            LeftTextBold(text: widget.subject),
             const SizedBox(height: 12),
+
             //TOPICS
-            LeftTextBold(text: topics),
+            LeftTextBold(text: widget.topics),
             const SizedBox(height: 12),
+
             //LEVEL
             TextFireClock(
               color: ABColors.secondaryGoldYellow,
-              text1: "Level $answerComplexity",
+              text1: widget.yourEstimatedDifficulty,
               icon1: FontAwesomeIcons.fire,
               icon2: FontAwesomeIcons.solidClock,
-              text2: "$answerTime Mnt",
+              text2: widget.yourEstimatedTime,
             ),
             const SizedBox(height: 28),
 
-            //STEP BY STEP
-            MarkdownView(resultText: contentAnswere),
+            //STEP
+            MarkdownView(resultText: widget.solutionSteps),
+            //DETAIL EXPLANATION
+            if (isExpanded)
+              MarkdownView(resultText: widget.detailedExplanation),
             //BUTTON MORE
+            const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  ABTexts.moreExp,
+                onPressed: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                },
+                child: Text(
+                  isExpanded ? 'Hide Explanation' : ABTexts.moreExp,
                   style: ABTextstyle.body1Medium,
                 ),
               ),

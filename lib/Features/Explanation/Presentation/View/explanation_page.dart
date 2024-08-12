@@ -112,10 +112,10 @@ class _ExplanationPageState extends State<ExplanationPage> {
                             subject: "subject",
                             topics: "topics",
                             yourOriginalProblem: "youQuestion",
-                            yourEstimatedDifficulty: 5,
+                            yourEstimatedDifficulty: "Level 5",
                             yourEstimatedTime: "10",
                             newOriginalProblem: "newQuestion",
-                            newEstimatedDifficulty: 5,
+                            newEstimatedDifficulty: "Level 5",
                             newEstimatedTime: "10"),
 
                         //SOLVE QUESTION
