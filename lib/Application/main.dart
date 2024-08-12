@@ -1,5 +1,7 @@
 import 'package:apollo_app/Core/Themes/themes.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
+import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
+import 'package:apollo_app/Features/Chat/Presentation/Providers/chat_provider.dart';
 import 'package:apollo_app/Features/Common/Setting/View/setting_page.dart';
 import 'package:apollo_app/Features/Common/SplashScreen/View/splash_screen.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/login_page.dart';
@@ -22,7 +24,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CaptureProvider()),
-        ChangeNotifierProvider(create: (_) => ExplanationProvider()),
+        ChangeNotifierProvider(create: (_) => ChatProvider())
       ],
       child: const MyApp(),
     ),

@@ -18,7 +18,7 @@ class ExplanationProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await genAiService.generateExplanation(image);
+      final response = await genAiService.solveQuestionWithImage(image);
       _explanation = response;
     } catch (e) {
       if (context.mounted) {

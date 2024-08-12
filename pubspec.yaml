@@ -45,6 +45,8 @@ dependencies:
   font_awesome_flutter: ^10.7.0
   image_cropper: ^7.1.0
   torch_light: ^1.1.0
+  flutter_launcher_icons: ^0.13.1
+  rename_app: ^1.6.1
 
 dev_dependencies:
   flutter_test:
