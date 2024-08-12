@@ -3,6 +3,8 @@ class ABTexts {
   // -- Authentication Headings
   static const String loginTitle = "Welcome back,";
   static const String loginSubTitle = "Please sign in to save your learning";
+  static const String signUpTitle = "Welcome to Stuvy,";
+  static const String signUpSubTitle = "Let’s create your account";
 
   // -- Authentication Forms
   static const String firstName = "First Name";
@@ -23,6 +25,7 @@ class ABTexts {
   static const String resendEmailIn = "Resend email in";
   static const String signGoogle = "Sign in with Google";
   static const String dontHaveAcc = "Don’t have an account?";
+  static const String haveAcc = "Already have an account?";
   static const String createAcc = "Create account";
   static const String contAs = "Continue as";
   static const String aGuest = "a guest";

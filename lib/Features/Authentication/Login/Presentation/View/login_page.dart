@@ -35,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ABColors.deepSea,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: ABColors.deepSea,
