@@ -5,6 +5,7 @@ import 'package:apollo_app/Core/Widget/button/setting_button.dart';
 import 'package:apollo_app/Features/Capture/Components/notebook_button.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
 import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
+import 'package:apollo_app/Features/Chat/Presentation/Enum/prompt_enum.dart';
 import 'package:apollo_app/Features/Chat/Presentation/View/chat_page.dart';
 import 'package:apollo_app/Features/Common/Setting/View/setting_page.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +23,16 @@ typedef CallBackContext = Function(BuildContext context);
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ChatPageState> _chatPageKey = GlobalKey<ChatPageState>();
+  final GlobalKey<CapturePageState> _capturePageKey =
+      GlobalKey<CapturePageState>();
+
   int _selectedSegment = 1;
   late CaptureProvider _captureProvider;
   late File? capturedImage;
   late ChatPage chatPage;
+  late CapturePage capturePage;
+  PromptEnum? _promptState = PromptEnum.generateSimiliarQuestion;
+  bool _isChipsButtonHidden = false;
   @override
   void initState() {
     super.initState();
@@ -37,9 +44,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _invokeChildMethod(File image) {
+  void _invokeDoPromptOnChat(File image) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      print("CHECK!");
+      if (_promptState != null && !_isChipsButtonHidden) {
+        _chatPageKey.currentState?.chatProvider.changePrompt(_promptState!);
+      }
       _chatPageKey.currentState?.promptWithImage(image);
+      print("CHECK SINI");
+      setState(() {
+        _isChipsButtonHidden = false;
+      });
+    });
+  }
+
+  void _invokeHideChips(bool newState) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _capturePageKey.currentState?.isChipButtonHidden = newState;
     });
   }
 
@@ -74,8 +95,23 @@ class _HomePageState extends State<HomePage> {
       key: _chatPageKey,
     );
     final cameraProvider = Provider.of<CaptureProvider>(context);
+    capturePage = CapturePage(
+      cameraProvider: cameraProvider,
+      callBackWithImage: (File image) {
+        setState(() {
+          _selectedSegment = 1;
+        });
+        _invokeDoPromptOnChat(image);
+      },
+      callBackChangePrompt: (prompt) {
+        _promptState = prompt;
+      },
+      key: _capturePageKey,
+    );
     chatPage.callback = () {
       setState(() {
+        _isChipsButtonHidden = true;
+        _invokeHideChips(_isChipsButtonHidden);
         _selectedSegment = 0;
         cameraProvider.init();
       });
@@ -84,17 +120,7 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
       child: Stack(
         children: [
-          _selectedSegment == 0
-              ? CapturePage(
-                  cameraProvider: cameraProvider,
-                  callBackWithImage: (File image) {
-                    setState(() {
-                      _selectedSegment = 1;
-                    });
-                    _invokeChildMethod(image);
-                  },
-                )
-              : chatPage,
+          _selectedSegment == 0 ? capturePage : chatPage,
           _buildNavbar(
             onPressedSetting: (context) => navigateToSetting(context),
           ),
@@ -127,6 +153,8 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           setState(() {
                             _selectedSegment = 0;
+                            _isChipsButtonHidden = false;
+                            _invokeHideChips(_isChipsButtonHidden);
                           });
                           Provider.of<CaptureProvider>(context, listen: false)
                               .init();

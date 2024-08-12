@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:apollo_app/Core/Constants/colors.dart';
+import 'package:apollo_app/Features/Chat/Presentation/Enum/prompt_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:torch_light/torch_light.dart';
 import '../../Components/camera_button.dart';
@@ -10,24 +11,29 @@ import '../Provider/capture_provider.dart';
 import 'camera_preview.dart';
 
 typedef OnDismissWithImage = void Function(File image);
+typedef OnChangePrompt = void Function(PromptEnum prompt);
 
 class CapturePage extends StatefulWidget {
   final CaptureProvider cameraProvider;
   final OnDismissWithImage callBackWithImage;
-  const CapturePage(
-      {super.key,
+  final OnChangePrompt callBackChangePrompt;
+  final GlobalKey<CapturePageState> key;
+  CapturePage(
+      {required this.key,
       required this.cameraProvider,
-      required this.callBackWithImage});
+      required this.callBackWithImage,
+      required this.callBackChangePrompt})
+      : super(key: key);
 
   @override
-  State<CapturePage> createState() => _CapturePageState();
+  State<CapturePage> createState() => CapturePageState();
 }
 
-class _CapturePageState extends State<CapturePage> {
+class CapturePageState extends State<CapturePage> {
   final ScrollController _scrollController = ScrollController();
   int _selectedIndex = 0;
   bool _isFlashOn = false;
-
+  bool isChipButtonHidden = true;
   @override
   void dispose() {
     _scrollController.dispose();
@@ -54,31 +60,38 @@ class _CapturePageState extends State<CapturePage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Center(
-                    child: SizedBox(
-                      width: MediaQuery.of(context)
-                          .size
-                          .width, // Lebar layar penuh
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
+                  isChipButtonHidden
+                      ? const SizedBox()
+                      : Center(
+                          child: SizedBox(
+                            width: MediaQuery.of(context)
+                                .size
+                                .width, // Lebar layar penuh
+                            child: SingleChildScrollView(
+                              controller: _scrollController,
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3.5,
+                                  ),
+                                  _buildButton(0, 'Similar Question',
+                                      PromptEnum.generateSimiliarQuestion),
+                                  _buildButton(1, 'Question Solver',
+                                      PromptEnum.solveNewQuestion),
+                                  _buildButton(2, 'Answer Checker',
+                                      PromptEnum.checkAnswer),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width / 3,
+                                  ),
+                                ],
+                              ),
                             ),
-                            _buildButton(0, 'Similar Question'),
-                            _buildButton(1, 'Question Solver'),
-                            _buildButton(2, 'Answer Cheker'),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3,
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
 
                   const SizedBox(height: 24),
 
@@ -99,8 +112,11 @@ class _CapturePageState extends State<CapturePage> {
                             }
                           },
                         ),
-                        GaleryButton(onPressed: () {
-                          cameraProvider.onCapture(false, context);
+                        GaleryButton(onPressed: () async {
+                          await cameraProvider.onCapture(false, context);
+                          widget.callBackWithImage(
+                            cameraProvider.capturedImage!,
+                          );
                         })
                       ],
                     ),
@@ -115,7 +131,7 @@ class _CapturePageState extends State<CapturePage> {
     );
   }
 
-  Widget _buildButton(int index, String text) {
+  Widget _buildButton(int index, String text, PromptEnum promptType) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
@@ -123,6 +139,7 @@ class _CapturePageState extends State<CapturePage> {
           setState(() {
             _selectedIndex = index;
           });
+          widget.callBackChangePrompt(promptType);
           _scrollToIndex(index);
         },
         style: ElevatedButton.styleFrom(
