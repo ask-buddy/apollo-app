@@ -3,6 +3,8 @@ class ABTexts {
   // -- Authentication Headings
   static const String loginTitle = "Welcome back,";
   static const String loginSubTitle = "Please sign in to save your learning";
+  static const String signUpTitle = "Welcome to Stuvy,";
+  static const String signUpSubTitle = "Let’s create your account";
 
   // -- Authentication Forms
   static const String firstName = "First Name";
@@ -23,6 +25,14 @@ class ABTexts {
   static const String resendEmailIn = "Resend email in";
   static const String signGoogle = "Sign in with Google";
   static const String dontHaveAcc = "Don’t have an account?";
-  static const String createAcc = "Create account now";
+  static const String haveAcc = "Already have an account?";
+  static const String createAcc = "Create account";
+  static const String contAs = "Continue as";
+  static const String aGuest = "a guest";
+
+  //Onboarding
+  static const String stuvyTagline = "Study Savvy, with Your AI Buddy";
+  static const String onboardingDesc =
+      "Empower your education with Stuvy. We're committed to making high-quality exam preparation accessible to all.";
   static const String moreExp = "Show me more explanation";
 }
