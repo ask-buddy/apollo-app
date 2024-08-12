@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:apollo_app/Core/Constants/colors.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:torch_light/torch_light.dart';
 import '../../Components/camera_button.dart';

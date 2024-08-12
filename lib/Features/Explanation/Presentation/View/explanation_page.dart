@@ -1,11 +1,11 @@
 import 'dart:io';
-import 'package:apollo_app/Core/Constants/htmlstyle.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_tex/flutter_tex.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../Core/Utilities/ImagePicker/image_picker_util.dart';
+import '../../../../Core/Widget/view/similar_question.dart';
 import '../Provider/explanation_provider.dart';
 
 class ExplanationPage extends StatefulWidget {
@@ -99,39 +99,32 @@ class _ExplanationPageState extends State<ExplanationPage> {
                     ),
             child: const Text("Explain !"),
           ),
+          // MarkdownView(resultText: explanationProvider.explanation)
           Expanded(
             child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
               child: explanationProvider.isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : MarkdownView(resultText: explanationProvider.explanation),
+                  : const Column(
+                      children: [
+                        // SIMILAR QUESTION
+                        SimilarQuestionCard(
+                            subject: "subject",
+                            topics: "topics",
+                            youQuestion: "youQuestion",
+                            yourQuestionComplexity: 5,
+                            youQuestionTime: "10",
+                            newQuestion: "newQuestion",
+                            newQuestionComplecxity: 5,
+                            newQuestionTime: "10"),
+
+                        //SOLVE QUESTION
+                        const SizedBox(height: 24),
+                      ],
+                    ),
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class MarkdownView extends StatelessWidget {
-  const MarkdownView({
-    super.key,
-    required this.resultText,
-  });
-
-  final String resultText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TeXView(
-        renderingEngine: const TeXViewRenderingEngine.katex(),
-        child: TeXViewDocument(
-          ABStyle.mainStyle + resultText,
-          style: const TeXViewStyle(
-            padding: TeXViewPadding.only(left: 8, right: 8, bottom: 34),
-          ),
-        ),
       ),
     );
   }
