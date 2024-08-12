@@ -23,5 +23,12 @@ class ABTexts {
   static const String resendEmailIn = "Resend email in";
   static const String signGoogle = "Sign in with Google";
   static const String dontHaveAcc = "Don’t have an account?";
-  static const String createAcc = "Create account now";
+  static const String createAcc = "Create account";
+  static const String contAs = "Continue as";
+  static const String aGuest = "a guest";
+
+  //Onboarding
+  static const String stuvyTagline = "Study Savvy, with Your AI Buddy";
+  static const String onboardingDesc =
+      "Empower your education with Stuvy. We're committed to making high-quality exam preparation accessible to all.";
 }

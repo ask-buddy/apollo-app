@@ -1,5 +1,6 @@
 import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:apollo_app/Core/Constants/app_label.dart';
+import 'package:apollo_app/Core/Themes/Textstyle/AB_textstyle.dart';
 import 'package:apollo_app/Features/Authentication/Components/text_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../../../../../Core/Constants/image_strings.dart';
 import '../../../../../Core/Constants/sizes.dart';
 import '../../../../Common/Home/View/home_page.dart';
+import '../../../SignUp/registration_page.dart';
 
 class LoginPage extends StatefulWidget {
   static String id = '/login';
@@ -35,8 +37,12 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: ABColors.deepSea,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         backgroundColor: ABColors.deepSea,
+        toolbarHeight: kToolbarHeight + 42,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -44,22 +50,18 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: constraints.maxHeight),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: IntrinsicHeight(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Logo, title
-                      const Text(
-                        ABTexts.loginTitle,
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: ABColors.secondary),
-                      ),
-                      const Text(
+                      Text(ABTexts.loginTitle,
+                          style: ABTextstyle.title1Medium
+                              .copyWith(color: ABColors.secondaryLight)),
+                      Text(
                         ABTexts.loginSubTitle,
-                        style: TextStyle(color: Colors.white),
+                        style: ABTextstyle.body1.copyWith(color: Colors.white),
                       ),
 
                       // Form
@@ -98,9 +100,11 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   TextButton(
                                     onPressed: () {},
-                                    child: const Text(ABTexts.forgetPassword,
-                                        style:
-                                            TextStyle(color: ABColors.accent)),
+                                    child: Text(
+                                      ABTexts.forgetPassword,
+                                      style: ABTextstyle.body1
+                                          .copyWith(color: ABColors.accent),
+                                    ),
                                   )
                                 ],
                               ),
@@ -113,7 +117,10 @@ class _LoginPageState extends State<LoginPage> {
                                       width: double.infinity,
                                       child: ElevatedButton(
                                         onPressed: _doLogin,
-                                        child: const Text(ABTexts.signIn),
+                                        child: const Text(
+                                          ABTexts.signIn,
+                                          style: ABTextstyle.body1Medium,
+                                        ),
                                       ),
                                     ),
                             ],
@@ -149,26 +156,30 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(width: 8),
                               Text(
                                 ABTexts.signGoogle,
-                                style: TextStyle(fontWeight: FontWeight.w400),
+                                style: ABTextstyle.body1Medium,
                               )
                             ],
                           ),
                         ),
                       ),
                       const SizedBox(height: 32),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             ABTexts.dontHaveAcc,
-                            style: TextStyle(color: Colors.white),
+                            style:
+                                ABTextstyle.body1.copyWith(color: Colors.white),
                           ),
-                          SizedBox(width: 4),
-                          Text(
-                            ABTexts.createAcc,
-                            style: TextStyle(
-                                color: ABColors.accent,
-                                fontWeight: FontWeight.bold),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, RegistrationPage.id);
+                            },
+                            child: Text(
+                              ABTexts.createAcc,
+                              style: ABTextstyle.body1
+                                  .copyWith(color: ABColors.accent),
+                            ),
                           )
                         ],
                       ),
