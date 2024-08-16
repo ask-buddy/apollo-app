@@ -1,12 +1,20 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:apollo_app/Core/Constants/colors.dart';
 import 'package:apollo_app/Core/Themes/Textstyle/AB_textstyle.dart';
+import 'package:apollo_app/Core/Widget/view/check_answere_view.dart';
+import 'package:apollo_app/Core/Widget/view/similar_question.dart';
+import 'package:apollo_app/Core/Widget/view/solve_question_view.dart';
+import 'package:apollo_app/Features/Chat/Model/check_answer.dart';
+import 'package:apollo_app/Features/Chat/Model/similar_question.dart';
+import 'package:apollo_app/Features/Chat/Model/solve_response.dart';
 import 'package:apollo_app/Features/Chat/Presentation/Enum/prompt_enum.dart';
 import 'package:apollo_app/Features/Chat/Presentation/Providers/chat_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
@@ -41,7 +49,7 @@ class ChatPageState extends State<ChatPage> {
     _controller.clear();
     chatProvider.appendMessages(userText, context);
 
-    if (userText != null &&
+    if (userText.isNotEmpty &&
         chatProvider.promptState == PromptEnum.normalPrompt) {
       chatProvider.doPrompt(userText, context, null);
     }
@@ -156,15 +164,14 @@ class ChatPageState extends State<ChatPage> {
                                     16), // Bottom-right corner radius
                               ),
                             ),
-                            child: Text(
-                              message['text']!,
-                              style: TextStyle(
-                                color: Colors.white, // Text color set to white
-                                fontSize: 12, // Font size
-                                fontWeight:
-                                    FontWeight.w500, // Medium font weight
-                              ),
-                            ),
+                            // child: Text(
+                            //   message['text'],
+                            //   style: ABTextstyle.body1
+                            //       .copyWith(color: ABColors.white),
+                            // ),
+                            child: _buildResponse(
+                                removeJsonMarkdown(message['text']),
+                                PromptEnumHelper.fromString(message['prompt'])),
                           ),
                         ),
                         if (message['sender'] == 'ai')
@@ -181,6 +188,47 @@ class ChatPageState extends State<ChatPage> {
             ],
           ),
         ));
+  }
+
+  String removeJsonMarkdown(String text) {
+    // Using regular expressions for efficiency
+    final regex = RegExp(r'```json|\n```');
+    return text.replaceAll(regex, '');
+  }
+
+  Widget _buildResponse(String response, PromptEnum promptType) {
+    switch (promptType) {
+      case PromptEnum.generateSimiliarQuestion:
+        SimilarQuestion similarQuestion =
+            SimilarQuestion.fromJson(jsonDecode(response));
+        return _buildSimiliarQuestionCard(similarQuestion);
+      case PromptEnum.solveNewQuestion:
+        SolveResponse solveQuestion =
+            SolveResponse.fromJson(jsonDecode(response));
+        return _buildSolveNewQuestionCard(solveQuestion);
+      case PromptEnum.checkAnswer:
+        CheckAnswer checkAnswer = CheckAnswer.fromJson(jsonDecode(response));
+        return _buildCheckAnswerCard(checkAnswer);
+      case PromptEnum.actExamInfo:
+        return const SizedBox();
+      case PromptEnum.normalPrompt:
+        return Text(
+          response,
+          style: ABTextstyle.captionMedium.copyWith(color: ABColors.white),
+        );
+    }
+  }
+
+  Widget _buildSimiliarQuestionCard(SimilarQuestion response) {
+    return SimilarQuestionCard(similarQuestion: response);
+  }
+
+  Widget _buildSolveNewQuestionCard(SolveResponse response) {
+    return SolveQuestionCard(solveResponse: response);
+  }
+
+  Widget _buildCheckAnswerCard(CheckAnswer response) {
+    return CheckAnswereCard(checkAnswer: response);
   }
 
   Widget _buildElevatedButton(
@@ -217,7 +265,7 @@ class ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildAiButton(Map<String, String> message) {
+  Widget _buildAiButton(Map<String, dynamic> message) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -273,16 +321,16 @@ class ChatPageState extends State<ChatPage> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  _buildElevatedButton(
-                    'ACT Exam Information',
-                    _actExamInformation,
-                    Colors.white
-                        .withOpacity(0.2), // Background color with 20% opacity
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     _buildElevatedButton(
+              //       'ACT Exam Information',
+              //       _actExamInformation,
+              //       Colors.white
+              //           .withOpacity(0.2), // Background color with 20% opacity
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

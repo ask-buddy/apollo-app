@@ -14,11 +14,15 @@ class ChatProvider with ChangeNotifier {
   PromptEnum _prompt = PromptEnum.normalPrompt;
   PromptEnum get promptState => _prompt;
 
-  final List<Map<String, String>> _messages = [
-    {'sender': 'ai', 'text': 'Hello! How can I assist you today?'}
+  final List<Map<String, dynamic>> _messages = [
+    {
+      'sender': 'ai',
+      'text': 'Hello! How can I assist you today?',
+      'prompt': 'normalPrompt'
+    }
   ];
 
-  List<Map<String, String>> get messages => _messages;
+  List<Map<String, dynamic>> get messages => _messages;
 
   void changePrompt(PromptEnum newPromptState) {
     _prompt = newPromptState;
@@ -30,30 +34,40 @@ class ChatProvider with ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     String response = "No Response Provided";
-    print(_prompt.toString());
+    print("PROMPT HERE: ${_prompt.toString()}");
     try {
       switch (_prompt) {
         case PromptEnum.normalPrompt:
+          print("Normal");
           if (question != null) {
             response = await genAiService.askPrompt(question);
           }
         case PromptEnum.generateSimiliarQuestion:
+          print("Generate Similiar Question");
           if (image != null) {
             response = await genAiService.generateQuestion(image);
           }
         case PromptEnum.solveNewQuestion:
+          print("Solve New Question");
           if (image != null) {
             response = await genAiService.solveQuestionWithImage(image);
           }
 
         case PromptEnum.checkAnswer:
+          print("Check Answer");
           if (image != null) {
             response = await genAiService.solveQuestionWithImage(image);
           }
         case PromptEnum.actExamInfo:
+          print("ACT EXAM INFO");
           return;
       }
-      _messages.add({'sender': 'ai', 'text': response});
+      _messages.add({
+        'sender': 'ai',
+        'text': response,
+        'prompt': PromptEnumHelper.toAbsoluteString(_prompt)
+      });
+      print("ANSWER HERE: $response");
     } catch (e) {
       if (context.mounted) {
         context.showErrorDialog(
@@ -73,7 +87,7 @@ class ChatProvider with ChangeNotifier {
   }
 
   Future<void> appendMessages(String message, BuildContext context) async {
-    _messages.add({'sender': 'user', 'text': message});
+    _messages.add({'sender': 'user', 'text': message, 'prompt': "normalText"});
     notifyListeners();
   }
 }

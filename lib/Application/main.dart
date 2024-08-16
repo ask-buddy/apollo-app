@@ -1,13 +1,11 @@
 import 'package:apollo_app/Core/Themes/themes.dart';
 import 'package:apollo_app/Features/Capture/Presentation/Provider/capture_provider.dart';
-import 'package:apollo_app/Features/Capture/Presentation/View/capture_page.dart';
 import 'package:apollo_app/Features/Chat/Presentation/Providers/chat_provider.dart';
 import 'package:apollo_app/Features/Common/Setting/View/setting_page.dart';
 import 'package:apollo_app/Features/Common/SplashScreen/View/splash_screen.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/login_page.dart';
 import 'package:apollo_app/Features/Authentication/SignUp/registration_page.dart';
 import 'package:apollo_app/Features/Authentication/Login/Presentation/View/welcome_page.dart';
-import 'package:apollo_app/Features/Explanation/Presentation/Provider/explanation_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

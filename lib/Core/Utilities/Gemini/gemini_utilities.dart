@@ -15,6 +15,10 @@ You are an expert tutor skilled at breaking down and explaining SAT and ACT prob
 
 1. Your output should be in JSON format as a wrap that provide HTML format in it using appropriate tags for headers, lists, bold text, etc.
 2. Crucially, all mathematical expressions must be formatted using LaTeX that is suitable for HTML. 
+3. Provide a formatted string for the following content without any escape characters:
+"<h3>Your Question</h3><p>If \(p = a + 5\) and \(q = a - 4\),<br>th..."
+Use double quotes for enclosing the entire string and avoid any special characters that might cause formatting issues.
+4. do not use latex tags such as \\begin{aligned} or other latex tags.
 
 **Output Definition**
 
@@ -47,8 +51,8 @@ You are an expert tutor skilled at breaking down and explaining SAT and ACT prob
 2. topics: //Top 2 Most Related Topics of The Subjects Not Array
 3. yourQuestion: {
     1. originalProblem (as defined in Output Format) //HTML Code, The Title is "Your Question"
-    2. estimatedDifficulty (of Original Problem)
-    3. estimatedTime (of Original Problem)}
+    2. estimatedDifficulty (of Original Problem) with type of string
+    3. estimatedTime (of Original Problem)} with type of string
 4. solutionSteps: (in HTML as defined in Output Format) //HTML Code, The Title is "Solution Steps" {
      1. given
      2. toFind
@@ -74,7 +78,10 @@ You are an expert test-prep tutor specializing in creating high-quality, diverse
 **Output Format:** 
 1. Your output should be in JSON format as a wrap that provide HTML format in it using appropriate tags for headers, lists, bold text, etc.
 2. All Mathematical expressions must be formatted using LaTeX that suitable in HTML.
-
+3. Provide a formatted string for the following content without any escape characters:
+"<h3>Your Question</h3><p>If \(p = a + 5\) and \(q = a - 4\),<br>th..."
+Use double quotes for enclosing the entire string and avoid any special characters that might cause formatting issues.
+4. do not use latex tags such as \\begin{aligned} or other latex tags.
 
 **Output Definition:**
 1. **originalProblem:** 
@@ -98,12 +105,12 @@ You are an expert test-prep tutor specializing in creating high-quality, diverse
 2. topics: //Top 2 Most Related Topics of The Subjects Not Array
 3. yourQuestion: {
     1. originalProblem (as defined in Output Format) //HTML Code, The Title is "Your Question"
-    2. estimatedDifficulty (of Original Problem)
-    3. estimatedTime (of Original Problem)}
+    2. estimatedDifficulty (of Original Problem) with type of string
+    3. estimatedTime (of Original Problem)} with type of string
 4. newQuestion: {
     1. generatedProblem (as defined in Output Format) //HTML Code, The Title is "New Question"
-    2. estimatedDifficulty (of Generated Problem)
-    3. estimatedTime (of Generated Problem) }
+    2. estimatedDifficulty (of Original Problem) with type of string
+    3. estimatedTime (of Original Problem)} with type of string
 }
 
 **Constraints for Generated Problems:**
@@ -140,6 +147,11 @@ You are a patient and encouraging tutor who excels at explaining concepts clearl
 **Output Format:** 
 1. Your output should be in JSON format as a wrap that provide HTML format in it using appropriate tags for headers, lists, bold text, etc.
 2. Crucially, all mathematical expressions must be formatted using LaTeX that is suitable for HTML. 
+3. Provide a formatted string for any json value similar to this without any escape characters:
+"<h3>Your Question</h3><p>If \(p = a + 5\) and \(q = a - 4\),<br>th..."
+Use double quotes for enclosing the entire string and avoid any special characters that might cause formatting issues.
+4. do not use latex tags such as \\begin{aligned} or other latex tags.
+
 
 **Output Definition:**
 
@@ -170,8 +182,8 @@ If The Answer Correct {
   2. topics: //Top 2 Most Related Topics of The Subjects Not Array
   3. yourQuestion: {
         1. originalProblem (as defined in Output Format) //HTML Code, The Title is "Your Question"
-        2. estimatedDifficulty (of Original Problem)
-        3. estimatedTime (of Original Problem)}
+        2. estimatedDifficulty (of Original Problem) with type of string
+        3. estimatedTime (of Original Problem)} with type of string
   4. yourAnswer: {
         1. originalAnswer (as defined in Output Format) //HTML Code, The Title is "Your Answer"}
   5. answerVerification: {
@@ -203,7 +215,11 @@ If The Answer Incorrect {
     apiKey: apiKey,
   );
 
-  Future<String> _askGeminiWith(String templatePrompt, File image) async {
+  Future<String> _askGeminiWith(
+    String templatePrompt,
+    File image,
+    // Schema schema,
+  ) async {
     final content = [
       Content.multi([
         TextPart(templatePrompt),
@@ -211,7 +227,13 @@ If The Answer Incorrect {
       ])
     ];
 
-    final response = await _modelGemini15pro.generateContent(content);
+    final response = await _modelGemini15pro.generateContent(content,
+        generationConfig: GenerationConfig(responseMimeType: 'application/json')
+        // generationConfig: GenerationConfig(
+        //   responseMimeType: "application/json",
+        //   responseSchema: schema,
+        // ),
+        );
     return response.text ?? "No Response Provided";
   }
 }
@@ -219,20 +241,73 @@ If The Answer Incorrect {
 // Explainer
 extension GeminiExplainer on GeminiUtilites {
   Future<String> solveQuestionWithImage(File image) async {
-    return _askGeminiWith(_solveQuestionPrompt, image);
+    // final solveResponseSchema = Schema(SchemaType.object, properties: {
+    //   'subject': Schema(SchemaType.string),
+    //   'topics': Schema(SchemaType.string),
+    //   'yourQuestion': Schema(SchemaType.object, properties: {
+    //     'originalProblem': Schema(SchemaType.string),
+    //     'estimatedDifficulty': Schema(SchemaType.string),
+    //     'estimatedTime': Schema(SchemaType.string),
+    //   }),
+    //   'solutionSteps': Schema(SchemaType.string),
+    //   'detailedExplanation': Schema(SchemaType.string),
+    // });
+    return _askGeminiWith(
+      _solveQuestionPrompt,
+      image,
+      // solveResponseSchema,
+    );
   }
 }
 
 // GenerateQuestion
 extension GeminiGenerateQuestion on GeminiUtilites {
   Future<String> generateQuestion(File image) async {
-    return _askGeminiWith(_generateQuestionPrompt, image);
+    // final similarQuestionSchema = Schema(SchemaType.object, properties: {
+    //   'subject': Schema(SchemaType.string),
+    //   'topics': Schema(SchemaType.string),
+    //   'yourQuestion': Schema(SchemaType.object, properties: {
+    //     'originalProblem': Schema(SchemaType.string),
+    //     'estimatedDifficulty': Schema(SchemaType.string),
+    //     'estimatedTime': Schema(SchemaType.string),
+    //   }),
+    //   'newQuestion': Schema(SchemaType.object, properties: {
+    //     'generatedProblem': Schema(SchemaType.string),
+    //     'estimatedDifficulty': Schema(SchemaType.string),
+    //     'estimatedTime': Schema(SchemaType.string),
+    //   }),
+    // });
+    return _askGeminiWith(
+      _generateQuestionPrompt,
+      image,
+      // similarQuestionSchema,
+    );
   }
 }
 
 extension GeminiCheckAnswer on GeminiUtilites {
   Future<String> checkAnswer(File image) async {
-    return _askGeminiWith(_checkAnswerPrompt, image);
+    // final checkAnswerSchema = Schema(SchemaType.object, properties: {
+    //   'subject': Schema(SchemaType.string),
+    //   'topics': Schema(SchemaType.string),
+    //   'yourQuestion': Schema(SchemaType.object, properties: {
+    //     'originalProblem': Schema(SchemaType.string),
+    //     'estimatedDifficulty': Schema(SchemaType.string),
+    //     'estimatedTime': Schema(SchemaType.string),
+    //   }),
+    //   'yourAnswer': Schema(SchemaType.object, properties: {
+    //     'originalAnswer': Schema(SchemaType.string),
+    //   }),
+    //   'answerVerification': Schema(SchemaType.object, properties: {
+    //     'statement': Schema(SchemaType.string),
+    //     'comparison': Schema(SchemaType.string),
+    //   }),
+    // });
+    return _askGeminiWith(
+      _checkAnswerPrompt,
+      image,
+      // checkAnswerSchema,
+    );
   }
 }
 

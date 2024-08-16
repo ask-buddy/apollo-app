@@ -11,7 +11,7 @@ class SimilarQuestion {
     subject = json['subject'];
     topics = json['topics'];
     yourQuestion = json['yourQuestion'] != null
-        ? new YourQuestion.fromJson(json['yourQuestion'])
+        ? YourQuestion.fromJson(json['yourQuestion'])
         : null;
     newQuestion = json['newQuestion'] != null
         ? new NewQuestion.fromJson(json['newQuestion'])

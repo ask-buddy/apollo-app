@@ -5,8 +5,6 @@ import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 
-import '../View/cropped_page.dart';
-
 class CaptureProvider with ChangeNotifier {
   CameraController? cameraController;
   late List<CameraDescription> cameras;
