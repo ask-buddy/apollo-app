@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
 class GeminiUtilites {
   static GeminiUtilites shared = GeminiUtilites();
-  static String apiKey = "AIzaSyAaId5V1ZcXcjbJIDU8LMoHS_upOh-WZnM";
+  static String apiKey = dotenv.env['GEMINI_API_KEY']!;
 
   final String _solveQuestionPrompt = """
 You are an expert tutor skilled at breaking down and explaining SAT and ACT problems across all subjects. Your task is to analyze an image of a new test problem, solve it step-by-step (if applicable), and provide a clear and comprehensive explanation of the solution process and the underlying concepts.
